@@ -1,3 +1,4 @@
+
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -13,13 +14,13 @@ namespace AdminApp.Forms
         private readonly UserService _userService;
         private User _user;
 
-        // Контролы для редактирования данных пользователя
+        // Controls for editing user data
         private TextBox? txtUsername, txtEmail, txtPassword, txtFirstName, txtMiddleName, txtLastName, txtPhone, txtAddress;
         private ComboBox? cmbGender, cmbRole;
         private DateTimePicker? dtpDateOfBirth;
-        // Кнопка для управления подпиской
+        // Button to manage subscription
         private Button? btnManageSubscription;
-        // Кнопки Сохранить/Отмена
+        // Save/Cancel
         private Button? btnSave, btnCancel;
 
         public EditUserForm(User user, UserService userService)
@@ -32,13 +33,12 @@ namespace AdminApp.Forms
 
         private void InitializeComponents()
         {
-            this.Text = "Редактировать клиента";
+            this.Text = "Edit User";
             this.Size = new System.Drawing.Size(500, 600);
             this.FormBorderStyle = FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
             this.StartPosition = FormStartPosition.CenterParent;
 
-            // Создаём TableLayoutPanel для удобного расположения контролов
             var tableLayout = new TableLayoutPanel()
             {
                 Dock = DockStyle.Fill,
@@ -50,7 +50,6 @@ namespace AdminApp.Forms
             tableLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 150F));
             tableLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
 
-            // Вспомогательный метод для добавления строки (метки + контрол)
             void AddRow(string labelText, Control control)
             {
                 var lbl = new Label() { Text = labelText, Anchor = AnchorStyles.Right, AutoSize = true };
@@ -58,79 +57,77 @@ namespace AdminApp.Forms
                 tableLayout.Controls.Add(control);
             }
 
-            // Username (только для чтения)
+            // Username (read-only)
             txtUsername = new TextBox() { Anchor = AnchorStyles.Left | AnchorStyles.Right, ReadOnly = true };
-            AddRow("Имя пользователя:", txtUsername);
+            AddRow("Username:", txtUsername);
 
             // Email
             txtEmail = new TextBox() { Anchor = AnchorStyles.Left | AnchorStyles.Right };
             AddRow("Email:", txtEmail);
 
-            // Пароль
+            // Password
             txtPassword = new TextBox() { Anchor = AnchorStyles.Left | AnchorStyles.Right, PasswordChar = '*' };
-            AddRow("Пароль:", txtPassword);
+            AddRow("Password:", txtPassword);
 
-            // Имя
+            // First Name
             txtFirstName = new TextBox() { Anchor = AnchorStyles.Left | AnchorStyles.Right };
-            AddRow("Имя:", txtFirstName);
+            AddRow("First Name:", txtFirstName);
 
-            // Отчество
+            // Middle Name
             txtMiddleName = new TextBox() { Anchor = AnchorStyles.Left | AnchorStyles.Right };
-            AddRow("Отчество:", txtMiddleName);
+            AddRow("Middle Name:", txtMiddleName);
 
-            // Фамилия
-           	txtLastName = new TextBox() { Anchor = AnchorStyles.Left | AnchorStyles.Right };
-            AddRow("Фамилия:", txtLastName);
+            // Last Name
+            txtLastName = new TextBox() { Anchor = AnchorStyles.Left | AnchorStyles.Right };
+            AddRow("Last Name:", txtLastName);
 
-            // Дата рождения
+            // Date of Birth
             dtpDateOfBirth = new DateTimePicker() { Anchor = AnchorStyles.Left | AnchorStyles.Right, Format = DateTimePickerFormat.Short };
-            AddRow("Дата рождения:", dtpDateOfBirth);
+            AddRow("Date of Birth:", dtpDateOfBirth);
 
-            // Пол
+            // Gender
             cmbGender = new ComboBox() { Anchor = AnchorStyles.Left | AnchorStyles.Right, DropDownStyle = ComboBoxStyle.DropDownList };
             cmbGender.Items.AddRange(new string[] { "Male", "Female", "Other" });
             cmbGender.SelectedIndex = 0;
-            AddRow("Пол:", cmbGender);
+            AddRow("Gender:", cmbGender);
 
-            // Телефон
+            // Phone
             txtPhone = new TextBox() { Anchor = AnchorStyles.Left | AnchorStyles.Right };
-            AddRow("Телефон:", txtPhone);
+            AddRow("Phone:", txtPhone);
 
-            // Адрес
+            // Address
             txtAddress = new TextBox() { Anchor = AnchorStyles.Left | AnchorStyles.Right };
-            AddRow("Адрес:", txtAddress);
+            AddRow("Address:", txtAddress);
 
-            // Роль
+            // Role
             cmbRole = new ComboBox() { Anchor = AnchorStyles.Left | AnchorStyles.Right, DropDownStyle = ComboBoxStyle.DropDownList };
             cmbRole.Items.AddRange(new string[] { "client", "admin" });
             cmbRole.SelectedIndex = 0;
-            AddRow("Роль:", cmbRole);
+            AddRow("Role:", cmbRole);
 
-            // Кнопка для управления подпиской
-            btnManageSubscription = new Button() { Text = "Управление подпиской", Width = 200 };
+            // Manage Subscription
+            btnManageSubscription = new Button() { Text = "Manage Subscription", Width = 200 };
             btnManageSubscription.Click += (s, e) =>
             {
                 if (string.IsNullOrEmpty(_user.Id))
                 {
-                    MessageBox.Show("Не удалось определить Id пользователя.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Failed to detect user ID.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
-                // Получаем экземпляр сервиса подписок.
-                // Здесь можно использовать DI, а можно создать новый экземпляр.
+                // Example usage of SubscriptionService
                 var subscriptionService = new SubscriptionService();
                 var manageSubForm = new ManageSubscriptionForm(_user.Id, subscriptionService);
                 manageSubForm.ShowDialog();
             };
-            AddRow("Подписка:", btnManageSubscription);
+            AddRow("Subscription:", btnManageSubscription);
 
-            // Кнопки Сохранить и Отмена
-            btnSave = new Button() { Text = "Сохранить", Anchor = AnchorStyles.None, Width = 100 };
+            // Save/Cancel
+            btnSave = new Button() { Text = "Save", Anchor = AnchorStyles.None, Width = 100 };
             btnSave.Click += async (s, e) => await SaveUser();
 
-            btnCancel = new Button() { Text = "Отмена", Anchor = AnchorStyles.None, Width = 100 };
+            btnCancel = new Button() { Text = "Cancel", Anchor = AnchorStyles.None, Width = 100 };
             btnCancel.Click += (s, e) => this.Close();
 
-            // Добавляем панель с кнопками в конец таблицы
             var flowPanel = new FlowLayoutPanel() { FlowDirection = FlowDirection.RightToLeft, Dock = DockStyle.Fill };
             flowPanel.Controls.Add(btnCancel);
             flowPanel.Controls.Add(btnSave);
@@ -148,7 +145,7 @@ namespace AdminApp.Forms
 
             txtUsername.Text = _user.Username;
             txtEmail.Text = _user.Email;
-            txtPassword.Text = _user.Password; // При необходимости можно оставить пустым для безопасности
+            txtPassword.Text = _user.Password; 
             txtFirstName.Text = _user.FirstName;
             txtMiddleName.Text = _user.MiddleName;
             txtLastName.Text = _user.LastName;
@@ -172,7 +169,7 @@ namespace AdminApp.Forms
                 string.IsNullOrWhiteSpace(txtLastName.Text) ||
                 string.IsNullOrWhiteSpace(txtPhone.Text))
             {
-                MessageBox.Show("Пожалуйста, заполните все обязательные поля.", "Внимание", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Please fill in all required fields.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
@@ -196,24 +193,24 @@ namespace AdminApp.Forms
                 if (!Validator.TryValidateObject(_user, validationContext, validationResults, true))
                 {
                     var errors = string.Join("\n", validationResults.Select(r => r.ErrorMessage));
-                    MessageBox.Show($"Валидация не пройдена:\n{errors}", "Внимание", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show($"Validation failed:\n{errors}", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
 
                 bool success = await _userService.UpdateUserAsync(_user);
                 if (success)
                 {
-                    MessageBox.Show("Данные обновлены!", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show("User data has been updated!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     this.Close();
                 }
                 else
                 {
-                    MessageBox.Show("Не удалось обновить данные.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Failed to update user data.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Ошибка при сохранении данных: {ex.Message}", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"Error saving data: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }

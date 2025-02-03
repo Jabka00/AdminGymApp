@@ -1,8 +1,10 @@
+
 using System;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using AdminApp.Models;
 using AdminApp.Services;
-using System.Threading.Tasks;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 
@@ -28,7 +30,7 @@ namespace AdminApp.Forms
 
         private void InitializeComponents()
         {
-            this.Text = "Добавить клиента";
+            this.Text = "Add User";
             this.Size = new System.Drawing.Size(500, 600);
             this.FormBorderStyle = FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
@@ -46,7 +48,6 @@ namespace AdminApp.Forms
             tableLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 150F));
             tableLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
 
-            // Функция для добавления строк
             void AddRow(string labelText, Control control)
             {
                 var lbl = new Label() { Text = labelText, Anchor = AnchorStyles.Right, AutoSize = true };
@@ -56,7 +57,7 @@ namespace AdminApp.Forms
 
             // Username
             txtUsername = new TextBox() { Anchor = AnchorStyles.Left | AnchorStyles.Right };
-            AddRow("Имя пользователя:", txtUsername);
+            AddRow("Username:", txtUsername);
 
             // Email
             txtEmail = new TextBox() { Anchor = AnchorStyles.Left | AnchorStyles.Right };
@@ -64,49 +65,49 @@ namespace AdminApp.Forms
 
             // Password
             txtPassword = new TextBox() { Anchor = AnchorStyles.Left | AnchorStyles.Right, PasswordChar = '*' };
-            AddRow("Пароль:", txtPassword);
+            AddRow("Password:", txtPassword);
 
             // First Name
             txtFirstName = new TextBox() { Anchor = AnchorStyles.Left | AnchorStyles.Right };
-            AddRow("Имя:", txtFirstName);
+            AddRow("First Name:", txtFirstName);
 
             // Middle Name
             txtMiddleName = new TextBox() { Anchor = AnchorStyles.Left | AnchorStyles.Right };
-            AddRow("Отчество:", txtMiddleName);
+            AddRow("Middle Name:", txtMiddleName);
 
             // Last Name
             txtLastName = new TextBox() { Anchor = AnchorStyles.Left | AnchorStyles.Right };
-            AddRow("Фамилия:", txtLastName);
+            AddRow("Last Name:", txtLastName);
 
             // Date of Birth
             dtpDateOfBirth = new DateTimePicker() { Anchor = AnchorStyles.Left | AnchorStyles.Right, Format = DateTimePickerFormat.Short };
-            AddRow("Дата рождения:", dtpDateOfBirth);
+            AddRow("Date of Birth:", dtpDateOfBirth);
 
             // Gender
             cmbGender = new ComboBox() { Anchor = AnchorStyles.Left | AnchorStyles.Right, DropDownStyle = ComboBoxStyle.DropDownList };
             cmbGender.Items.AddRange(new string[] { "Male", "Female", "Other" });
             cmbGender.SelectedIndex = 0;
-            AddRow("Пол:", cmbGender);
+            AddRow("Gender:", cmbGender);
 
             // Phone
             txtPhone = new TextBox() { Anchor = AnchorStyles.Left | AnchorStyles.Right };
-            AddRow("Телефон:", txtPhone);
+            AddRow("Phone:", txtPhone);
 
             // Address
             txtAddress = new TextBox() { Anchor = AnchorStyles.Left | AnchorStyles.Right };
-            AddRow("Адрес:", txtAddress);
+            AddRow("Address:", txtAddress);
 
             // Role
             cmbRole = new ComboBox() { Anchor = AnchorStyles.Left | AnchorStyles.Right, DropDownStyle = ComboBoxStyle.DropDownList };
             cmbRole.Items.AddRange(new string[] { "client", "admin" });
             cmbRole.SelectedIndex = 0;
-            AddRow("Роль:", cmbRole);
+            AddRow("Role:", cmbRole);
 
-            // Save and Cancel Buttons
-            btnSave = new Button() { Text = "Сохранить", Anchor = AnchorStyles.None, Width = 100 };
+            // Save/Cancel
+            btnSave = new Button() { Text = "Save", Anchor = AnchorStyles.None, Width = 100 };
             btnSave.Click += async (s, e) => await SaveUser();
 
-            btnCancel = new Button() { Text = "Отмена", Anchor = AnchorStyles.None, Width = 100 };
+            btnCancel = new Button() { Text = "Cancel", Anchor = AnchorStyles.None, Width = 100 };
             btnCancel.Click += (s, e) => this.Close();
 
             var flowPanel = new FlowLayoutPanel() { FlowDirection = FlowDirection.RightToLeft, Dock = DockStyle.Fill };
@@ -117,65 +118,62 @@ namespace AdminApp.Forms
             this.Controls.Add(tableLayout);
         }
 
-       private async Task SaveUser()
-{
-    if (txtUsername == null || txtEmail == null || txtPassword == null ||
-        txtFirstName == null || txtLastName == null || dtpDateOfBirth == null ||
-        cmbGender == null || txtPhone == null || cmbRole == null)
-        return;
+        private async Task SaveUser()
+        {
+            if (txtUsername == null || txtEmail == null || txtPassword == null ||
+                txtFirstName == null || txtLastName == null || dtpDateOfBirth == null ||
+                cmbGender == null || txtPhone == null || cmbRole == null)
+                return;
 
-    // Валидация обязательных полей
-    if (string.IsNullOrWhiteSpace(txtUsername.Text) ||
-        string.IsNullOrWhiteSpace(txtEmail.Text) ||
-        string.IsNullOrWhiteSpace(txtPassword.Text) ||
-        string.IsNullOrWhiteSpace(txtFirstName.Text) ||
-        string.IsNullOrWhiteSpace(txtLastName.Text) ||
-        string.IsNullOrWhiteSpace(txtPhone.Text))
-    {
-        MessageBox.Show("Пожалуйста, заполните все обязательные поля.", "Внимание", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-        return;
-    }
+            // Validation of required fields
+            if (string.IsNullOrWhiteSpace(txtUsername.Text) ||
+                string.IsNullOrWhiteSpace(txtEmail.Text) ||
+                string.IsNullOrWhiteSpace(txtPassword.Text) ||
+                string.IsNullOrWhiteSpace(txtFirstName.Text) ||
+                string.IsNullOrWhiteSpace(txtLastName.Text) ||
+                string.IsNullOrWhiteSpace(txtPhone.Text))
+            {
+                MessageBox.Show("Please fill in all required fields.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
 
-    // Валидация Email
-    if (!IsValidEmail(txtEmail.Text))
-    {
-        MessageBox.Show("Некорректный формат email.", "Внимание", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-        return;
-    }
+            // Validate Email
+            if (!IsValidEmail(txtEmail.Text))
+            {
+                MessageBox.Show("Invalid email format.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
 
-    // Создание нового пользователя
-    var newUser = new User
-    {
-        Username = txtUsername.Text.Trim(),
-        Email = txtEmail.Text.Trim(),
-        Password = txtPassword.Text.Trim(),
-        FirstName = txtFirstName.Text.Trim(),
-        MiddleName = string.IsNullOrWhiteSpace(txtMiddleName.Text) ? null : txtMiddleName.Text.Trim(),
-        LastName = txtLastName.Text.Trim(),
-        DateOfBirth = dtpDateOfBirth.Value.Date,
-        Gender = cmbGender.SelectedItem?.ToString() ?? "Other",
-        Phone = txtPhone.Text.Trim(),
-        Address = string.IsNullOrWhiteSpace(txtAddress.Text) ? null : txtAddress.Text.Trim(),
-        Role = cmbRole.SelectedItem?.ToString() ?? "client",
-        SubscriptionPlan = null, // Можно добавить выбор подписки, если необходимо
-        SubscriptionEndDate = null, // Можно добавить дату окончания подписки, если необходимо
-        CreatedAt = DateTime.UtcNow,
-        UpdatedAt = DateTime.UtcNow
-    };
+            var newUser = new User
+            {
+                Username = txtUsername.Text.Trim(),
+                Email = txtEmail.Text.Trim(),
+                Password = txtPassword.Text.Trim(),
+                FirstName = txtFirstName.Text.Trim(),
+                MiddleName = string.IsNullOrWhiteSpace(txtMiddleName.Text) ? null : txtMiddleName.Text.Trim(),
+                LastName = txtLastName.Text.Trim(),
+                DateOfBirth = dtpDateOfBirth.Value.Date,
+                Gender = cmbGender.SelectedItem?.ToString() ?? "Other",
+                Phone = txtPhone.Text.Trim(),
+                Address = string.IsNullOrWhiteSpace(txtAddress.Text) ? null : txtAddress.Text.Trim(),
+                Role = cmbRole.SelectedItem?.ToString() ?? "client",
+                SubscriptionPlan = null,
+                SubscriptionEndDate = null,
+                CreatedAt = DateTime.UtcNow,
+                UpdatedAt = DateTime.UtcNow
+            };
 
-    // Вставка пользователя
-    var success = await _userService.InsertUserAsync(newUser);
-    if (success)
-    {
-        MessageBox.Show("Клиент успешно добавлен!", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
-        this.Close();
-    }
-    else
-    {
-        MessageBox.Show("Не удалось добавить клиента.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-    }
-}
-
+            var success = await _userService.InsertUserAsync(newUser);
+            if (success)
+            {
+                MessageBox.Show("User has been successfully added!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                this.Close();
+            }
+            else
+            {
+                MessageBox.Show("Failed to add user.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
 
         private bool IsValidEmail(string email)
         {

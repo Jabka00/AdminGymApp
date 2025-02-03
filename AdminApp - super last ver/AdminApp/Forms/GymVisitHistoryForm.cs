@@ -1,3 +1,4 @@
+
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -22,14 +23,14 @@ namespace AdminApp.Forms
 
         private void InitializeComponents()
         {
-            this.Text = "История посещений зала";
+            this.Text = "Gym Visit History";
             this.Size = new System.Drawing.Size(800, 600);
             this.FormBorderStyle = FormBorderStyle.FixedDialog;
             this.StartPosition = FormStartPosition.CenterParent;
 
-            Label lblPrompt = new Label() { Text = "Введите ID пользователя:", AutoSize = true, Top = 20, Left = 20 };
+            Label lblPrompt = new Label() { Text = "Enter user ID:", AutoSize = true, Top = 20, Left = 20 };
             txtUserId = new TextBox() { Top = 50, Left = 20, Width = 200 };
-            btnLoadHistory = new Button() { Text = "Загрузить историю", Top = 50, Left = 240, Width = 150 };
+            btnLoadHistory = new Button() { Text = "Load History", Top = 50, Left = 240, Width = 150 };
             btnLoadHistory.Click += async (s, e) => await LoadHistory();
 
             dgvHistory = new DataGridView()
@@ -54,7 +55,7 @@ namespace AdminApp.Forms
             string userId = txtUserId.Text.Trim();
             if (string.IsNullOrEmpty(userId))
             {
-                MessageBox.Show("Введите ID пользователя.", "Внимание", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Please enter a user ID.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
@@ -65,7 +66,7 @@ namespace AdminApp.Forms
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Ошибка загрузки истории: {ex.Message}", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"Error loading visit history: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }

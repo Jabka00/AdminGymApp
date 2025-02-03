@@ -28,7 +28,7 @@ namespace AdminApp.Forms
 
         private void InitializeComponents()
         {
-            this.Text = "Список тренировок";
+            this.Text = "Training list";
             this.Size = new System.Drawing.Size(1000, 600);
             this.FormBorderStyle = FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
@@ -44,7 +44,7 @@ namespace AdminApp.Forms
             };
             dgvTrainings.Columns.Add(new DataGridViewTextBoxColumn()
             {
-                HeaderText = "Цена группы",
+                HeaderText = "Price",
                 Name = "GroupPrice",
                 DataPropertyName = "GroupPrice",
                 Width = 100,
@@ -53,7 +53,7 @@ namespace AdminApp.Forms
             // Добавление столбцов вручную
             dgvTrainings.Columns.Add(new DataGridViewTextBoxColumn()
             {
-                HeaderText = "Название",
+                HeaderText = "Title",
                 Name = "Title", // Имя столбца для обращения
                 DataPropertyName = "Title",
                 Width = 150
@@ -61,7 +61,7 @@ namespace AdminApp.Forms
 
             dgvTrainings.Columns.Add(new DataGridViewTextBoxColumn()
             {
-                HeaderText = "Описание",
+                HeaderText = "Description",
                 Name = "Description",
                 DataPropertyName = "Description",
                 Width = 200
@@ -69,7 +69,7 @@ namespace AdminApp.Forms
 
             dgvTrainings.Columns.Add(new DataGridViewTextBoxColumn()
             {
-                HeaderText = "Тип",
+                HeaderText = "Type",
                 Name = "Type",
                 DataPropertyName = "Type",
                 Width = 80
@@ -77,7 +77,7 @@ namespace AdminApp.Forms
 
             dgvTrainings.Columns.Add(new DataGridViewTextBoxColumn()
             {
-                HeaderText = "Дата и время",
+                HeaderText = "Schedule",
                 Name = "Schedule",
                 DataPropertyName = "Schedule",
                 Width = 150,
@@ -86,7 +86,7 @@ namespace AdminApp.Forms
 
             dgvTrainings.Columns.Add(new DataGridViewTextBoxColumn()
             {
-                HeaderText = "Продолжительность",
+                HeaderText = "Duration",
                 Name = "Duration",
                 DataPropertyName = "Duration",
                 Width = 120,
@@ -95,7 +95,7 @@ namespace AdminApp.Forms
 
             dgvTrainings.Columns.Add(new DataGridViewTextBoxColumn()
             {
-                HeaderText = "Тренер",
+                HeaderText = "TrainerName",
                 Name = "TrainerName",
                 DataPropertyName = "TrainerName",
                 Width = 150
@@ -103,7 +103,7 @@ namespace AdminApp.Forms
 
             dgvTrainings.Columns.Add(new DataGridViewTextBoxColumn()
             {
-                HeaderText = "Вместимость",
+                HeaderText = "Capacity",
                 Name = "Capacity",
                 DataPropertyName = "Capacity",
                 Width = 80
@@ -111,7 +111,7 @@ namespace AdminApp.Forms
 
             dgvTrainings.Columns.Add(new DataGridViewTextBoxColumn()
             {
-                HeaderText = "Записано",
+                HeaderText = "EnrolledCount",
                 Name = "EnrolledCount",
                 DataPropertyName = "EnrolledCount",
                 Width = 80
@@ -119,7 +119,7 @@ namespace AdminApp.Forms
 
             btnRefresh = new Button()
             {
-                Text = "Обновить",
+                Text = "Update",
                 Dock = DockStyle.Top,
                 Height = 40
             };

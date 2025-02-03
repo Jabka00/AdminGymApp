@@ -30,7 +30,7 @@ namespace AdminApp.Forms
 
         private void InitializeComponents()
         {
-            this.Text = "Редактировать тренировку";
+            this.Text = "Edit Training";
             this.Size = new System.Drawing.Size(500, 600);
             this.FormBorderStyle = FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
@@ -57,39 +57,39 @@ namespace AdminApp.Forms
 
             // Title
             txtTitle = new TextBox() { Anchor = AnchorStyles.Left | AnchorStyles.Right };
-            AddRow("Название:", txtTitle);
+            AddRow("Title:", txtTitle);
 
             // Description
             txtDescription = new TextBox() { Anchor = AnchorStyles.Left | AnchorStyles.Right, Multiline = true, Height = 60 };
-            AddRow("Описание:", txtDescription);
+            AddRow("Description:", txtDescription);
 
             // Type
             cmbType = new ComboBox() { Anchor = AnchorStyles.Left | AnchorStyles.Right, DropDownStyle = ComboBoxStyle.DropDownList };
             cmbType.Items.AddRange(new string[] { "group", "personal" });
             cmbType.SelectedIndexChanged += (s, e) => UpdateGroupPriceVisibility();
-            AddRow("Тип:", cmbType);
+            AddRow("Type:", cmbType);
 
             // Trainer
             cmbTrainer = new ComboBox() { Anchor = AnchorStyles.Left | AnchorStyles.Right, DropDownStyle = ComboBoxStyle.DropDownList };
-            AddRow("Тренер:", cmbTrainer);
+            AddRow("Trainer:", cmbTrainer);
 
             // Schedule
             dtpSchedule = new DateTimePicker() { Anchor = AnchorStyles.Left | AnchorStyles.Right, Format = DateTimePickerFormat.Custom, CustomFormat = "dd.MM.yyyy HH:mm" };
-            AddRow("Дата и время:", dtpSchedule);
+            AddRow("Schedule (date/time):", dtpSchedule);
 
             // Duration
             var durationPanel = new FlowLayoutPanel() { FlowDirection = FlowDirection.LeftToRight, Dock = DockStyle.Fill };
             nudDurationHours = new NumericUpDown() { Minimum = 0, Maximum = 24, Width = 60 };
             nudDurationMinutes = new NumericUpDown() { Minimum = 0, Maximum = 59, Width = 60 };
-            durationPanel.Controls.Add(new Label() { Text = "Часы:", AutoSize = true });
+            durationPanel.Controls.Add(new Label() { Text = "Hours:", AutoSize = true });
             durationPanel.Controls.Add(nudDurationHours);
-            durationPanel.Controls.Add(new Label() { Text = "Минуты:", AutoSize = true });
+            durationPanel.Controls.Add(new Label() { Text = "Minutes:", AutoSize = true });
             durationPanel.Controls.Add(nudDurationMinutes);
-            AddRow("Продолжительность:", durationPanel);
+            AddRow("Duration:", durationPanel);
 
             // Capacity
             nudCapacity = new NumericUpDown() { Minimum = 1, Maximum = 100, Width = 100 };
-            AddRow("Вместимость:", nudCapacity);
+            AddRow("Capacity:", nudCapacity);
 
             // Group Price
             nudGroupPrice = new NumericUpDown()
@@ -100,13 +100,13 @@ namespace AdminApp.Forms
                 Value = 0,
                 Anchor = AnchorStyles.Left | AnchorStyles.Right
             };
-            AddRow("Цена для группы:", nudGroupPrice);
+            AddRow("Group Price:", nudGroupPrice);
 
-            // Save and Cancel Buttons
-            btnSave = new Button() { Text = "Сохранить", Anchor = AnchorStyles.None, Width = 100 };
+            // Save/Cancel
+            btnSave = new Button() { Text = "Save", Anchor = AnchorStyles.None, Width = 100 };
             btnSave.Click += async (s, e) => await SaveTraining();
 
-            btnCancel = new Button() { Text = "Отмена", Anchor = AnchorStyles.None, Width = 100 };
+            btnCancel = new Button() { Text = "Cancel", Anchor = AnchorStyles.None, Width = 100 };
             btnCancel.Click += (s, e) => this.Close();
 
             var flowPanel = new FlowLayoutPanel() { FlowDirection = FlowDirection.RightToLeft, Dock = DockStyle.Fill };
@@ -175,19 +175,19 @@ namespace AdminApp.Forms
 
             if (string.IsNullOrWhiteSpace(txtTitle.Text) || string.IsNullOrWhiteSpace(txtDescription.Text))
             {
-                MessageBox.Show("Пожалуйста, заполните все обязательные поля.", "Внимание", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Please fill in all required fields.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
             if (dtpSchedule.Value < DateTime.Now)
             {
-                MessageBox.Show("Дата и время тренировки должны быть в будущем.", "Внимание", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("The training date/time must be in the future.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
             if (cmbTrainer.SelectedValue == null)
             {
-                MessageBox.Show("Пожалуйста, выберите тренера.", "Внимание", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Please select a trainer.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
@@ -195,15 +195,14 @@ namespace AdminApp.Forms
             var trainer = await _trainerService.GetTrainerByIdAsync(selectedTrainerId);
             if (trainer == null)
             {
-                MessageBox.Show("Выбранный тренер не найден.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Selected trainer was not found.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
-            // Проверка доступности тренера в выбранный день
             var trainingDay = dtpSchedule.Value.DayOfWeek;
             if (!trainer.WorkingDays.Contains(trainingDay))
             {
-                MessageBox.Show($"Тренер {trainer.Name} не работает в {trainingDay}.", "Внимание", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show($"Trainer {trainer.Name} does not work on {trainingDay}.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
@@ -220,12 +219,12 @@ namespace AdminApp.Forms
             var success = await _trainingService.UpdateTrainingAsync(_training);
             if (success)
             {
-                MessageBox.Show("Тренировка успешно обновлена!", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Training has been successfully updated!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 this.Close();
             }
             else
             {
-                MessageBox.Show("Не удалось обновить тренировку.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Failed to update the training.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }

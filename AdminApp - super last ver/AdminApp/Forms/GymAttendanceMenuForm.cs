@@ -1,3 +1,4 @@
+
 using System;
 using System.Windows.Forms;
 using AdminApp.Services;
@@ -19,14 +20,14 @@ namespace AdminApp.Forms
 
         private void InitializeComponents()
         {
-            this.Text = "Управление посещениями зала";
+            this.Text = "Gym Attendance Management";
             this.Size = new System.Drawing.Size(400, 300);
             this.FormBorderStyle = FormBorderStyle.FixedDialog;
             this.StartPosition = FormStartPosition.CenterParent;
 
-            btnCheckIn = new Button() { Text = "Зачекинить", Top = 30, Left = 50, Width = 300, Height = 40 };
-            btnCheckOut = new Button() { Text = "Выписать", Top = 90, Left = 50, Width = 300, Height = 40 };
-            btnHistory = new Button() { Text = "История посещений", Top = 150, Left = 50, Width = 300, Height = 40 };
+            btnCheckIn = new Button() { Text = "Check In", Top = 30, Left = 50, Width = 300, Height = 40 };
+            btnCheckOut = new Button() { Text = "Check Out", Top = 90, Left = 50, Width = 300, Height = 40 };
+            btnHistory = new Button() { Text = "Visit History", Top = 150, Left = 50, Width = 300, Height = 40 };
 
             btnCheckIn.Click += (s, e) =>
             {

@@ -13,7 +13,7 @@ namespace AdminApp.Forms
         private readonly TrainerService _trainerService;
 
         private TextBox? txtName;
-        private NumericUpDown? nudTrainingPrice; // поле для цены
+        private NumericUpDown? nudTrainingPrice; // Price field
         private CheckedListBox? clbWorkingDays;
         private Button? btnSave, btnCancel;
 
@@ -25,7 +25,7 @@ namespace AdminApp.Forms
 
         private void InitializeComponents()
         {
-            this.Text = "Добавить тренера";
+            this.Text = "Add Trainer";
             this.Size = new System.Drawing.Size(400, 450);
             this.FormBorderStyle = FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
@@ -50,35 +50,35 @@ namespace AdminApp.Forms
                 tableLayout.Controls.Add(control);
             }
 
-            // Имя тренера
+            // Trainer Name
             txtName = new TextBox() { Anchor = AnchorStyles.Left | AnchorStyles.Right };
-            AddRow("Имя тренера:", txtName);
+            AddRow("Trainer Name:", txtName);
 
-            // Цена за тренировку
+            // Training Price
             nudTrainingPrice = new NumericUpDown()
             {
                 Anchor = AnchorStyles.Left | AnchorStyles.Right,
                 Minimum = 0,
                 Maximum = 999999,
                 DecimalPlaces = 2,
-                Value = 100 // можно задать дефолтное
+                Value = 100 // default
             };
-            AddRow("Цена за тренировку:", nudTrainingPrice);
+            AddRow("Training Price:", nudTrainingPrice);
 
-            // Рабочие дни
+            // Working Days
             clbWorkingDays = new CheckedListBox()
             {
                 Anchor = AnchorStyles.Left | AnchorStyles.Right,
                 CheckOnClick = true
             };
             clbWorkingDays.Items.AddRange(Enum.GetNames(typeof(DayOfWeek)));
-            AddRow("Рабочие дни:", clbWorkingDays);
+            AddRow("Working Days:", clbWorkingDays);
 
-            // Кнопки
-            btnSave = new Button() { Text = "Сохранить", Anchor = AnchorStyles.None, Width = 100 };
+            // Buttons
+            btnSave = new Button() { Text = "Save", Anchor = AnchorStyles.None, Width = 100 };
             btnSave.Click += async (s, e) => await SaveTrainer();
 
-            btnCancel = new Button() { Text = "Отмена", Anchor = AnchorStyles.None, Width = 100 };
+            btnCancel = new Button() { Text = "Cancel", Anchor = AnchorStyles.None, Width = 100 };
             btnCancel.Click += (s, e) => this.Close();
 
             var flowPanel = new FlowLayoutPanel() { FlowDirection = FlowDirection.RightToLeft, Dock = DockStyle.Fill };
@@ -96,17 +96,17 @@ namespace AdminApp.Forms
 
             if (string.IsNullOrWhiteSpace(txtName.Text))
             {
-                MessageBox.Show("Пожалуйста, заполните имя тренера.", "Внимание", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Please enter the trainer's name.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
             if (clbWorkingDays.CheckedItems.Count == 0)
             {
-                MessageBox.Show("Пожалуйста, выберите хотя бы один рабочий день.", "Внимание", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Please select at least one working day.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
-            // Создаём тренера
+            // Create the trainer
             var newTrainer = new Trainer
             {
                 Name = txtName.Text.Trim(),
@@ -127,12 +127,12 @@ namespace AdminApp.Forms
             var success = await _trainerService.InsertTrainerAsync(newTrainer);
             if (success)
             {
-                MessageBox.Show("Тренер успешно добавлен!", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Trainer has been successfully added!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 this.Close();
             }
             else
             {
-                MessageBox.Show("Не удалось добавить тренера.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Failed to add the trainer.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }

@@ -1,3 +1,4 @@
+
 using System;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -27,7 +28,7 @@ namespace AdminApp.Forms
 
         private void InitializeComponents()
         {
-            this.Text = "Редактировать подписку";
+            this.Text = "Edit Subscription";
             this.Size = new System.Drawing.Size(400, 300);
             this.FormBorderStyle = FormBorderStyle.FixedDialog;
             this.StartPosition = FormStartPosition.CenterParent;
@@ -52,29 +53,28 @@ namespace AdminApp.Forms
             }
 
             nudDurationMonths = new NumericUpDown() { Minimum = 1, Maximum = 24, Value = 1 };
-            AddRow("Длительность (мес):", nudDurationMonths);
+            AddRow("Duration (months):", nudDurationMonths);
 
             nudPricePerMonth = new NumericUpDown() { Minimum = 0, Maximum = 10000, DecimalPlaces = 2, Value = 0 };
-            AddRow("Цена за месяц:", nudPricePerMonth);
+            AddRow("Price per month:", nudPricePerMonth);
 
             dtpStartDate = new DateTimePicker() { Format = DateTimePickerFormat.Short };
-            AddRow("Дата начала:", dtpStartDate);
+            AddRow("Start Date:", dtpStartDate);
 
             lblTotalPrice = new Label() { Text = "0", AutoSize = true };
-            AddRow("Итоговая цена:", lblTotalPrice);
+            AddRow("Total Price:", lblTotalPrice);
 
             lblEndDate = new Label() { Text = "N/A", AutoSize = true };
-            AddRow("Дата окончания:", lblEndDate);
+            AddRow("End Date:", lblEndDate);
 
-            // При изменении значений обновляем вычисляемые поля
             nudDurationMonths.ValueChanged += (s, e) => UpdateComputedFields();
             nudPricePerMonth.ValueChanged += (s, e) => UpdateComputedFields();
             dtpStartDate.ValueChanged += (s, e) => UpdateComputedFields();
 
-            btnSave = new Button() { Text = "Сохранить", Width = 100 };
+            btnSave = new Button() { Text = "Save", Width = 100 };
             btnSave.Click += async (s, e) => await SaveSubscription();
 
-            btnCancel = new Button() { Text = "Отмена", Width = 100 };
+            btnCancel = new Button() { Text = "Cancel", Width = 100 };
             btnCancel.Click += (s, e) => this.Close();
 
             var flowPanel = new FlowLayoutPanel() { FlowDirection = FlowDirection.RightToLeft, Dock = DockStyle.Bottom };
@@ -120,7 +120,7 @@ namespace AdminApp.Forms
 
             if (_subscription == null)
             {
-                // Создаём новую подписку
+                // Create a new subscription
                 var newSubscription = new Subscription
                 {
                     UserId = _userId,
@@ -135,17 +135,17 @@ namespace AdminApp.Forms
                 bool success = await _subscriptionService.InsertSubscriptionAsync(newSubscription);
                 if (success)
                 {
-                    MessageBox.Show("Подписка успешно создана!", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show("Subscription has been successfully created!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     this.Close();
                 }
                 else
                 {
-                    MessageBox.Show("Не удалось создать подписку.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Failed to create the subscription.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
             else
             {
-                // Обновляем существующую подписку
+                // Update existing subscription
                 _subscription.DurationMonths = duration;
                 _subscription.PricePerMonth = pricePerMonth;
                 _subscription.TotalPrice = totalPrice;
@@ -155,12 +155,12 @@ namespace AdminApp.Forms
                 bool success = await _subscriptionService.UpdateSubscriptionAsync(_subscription);
                 if (success)
                 {
-                    MessageBox.Show("Подписка успешно обновлена!", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show("Subscription has been successfully updated!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     this.Close();
                 }
                 else
                 {
-                    MessageBox.Show("Не удалось обновить подписку.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Failed to update the subscription.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
         }

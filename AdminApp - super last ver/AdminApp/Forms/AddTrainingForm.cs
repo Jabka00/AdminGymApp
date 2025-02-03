@@ -1,3 +1,4 @@
+
 using System;
 using System.Windows.Forms;
 using AdminApp.Models;
@@ -18,7 +19,7 @@ namespace AdminApp.Forms
         private DateTimePicker? dtpSchedule;
         private NumericUpDown? nudDurationHours, nudDurationMinutes, nudCapacity;
         
-        // Поле для цены групповой тренировки
+        // Field for group training price
         private NumericUpDown? nudGroupPrice;
         
         private Button? btnSave, btnCancel;
@@ -33,7 +34,7 @@ namespace AdminApp.Forms
 
         private void InitializeComponents()
         {
-            this.Text = "Добавить тренировку";
+            this.Text = "Add Training";
             this.Size = new System.Drawing.Size(500, 550);
             this.FormBorderStyle = FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
@@ -60,42 +61,42 @@ namespace AdminApp.Forms
 
             // Title
             txtTitle = new TextBox() { Anchor = AnchorStyles.Left | AnchorStyles.Right };
-            AddRow("Название:", txtTitle);
+            AddRow("Title:", txtTitle);
 
             // Description
             txtDescription = new TextBox() { Anchor = AnchorStyles.Left | AnchorStyles.Right, Multiline = true, Height = 60 };
-            AddRow("Описание:", txtDescription);
+            AddRow("Description:", txtDescription);
 
             // Type
             cmbType = new ComboBox() { Anchor = AnchorStyles.Left | AnchorStyles.Right, DropDownStyle = ComboBoxStyle.DropDownList };
             cmbType.Items.AddRange(new string[] { "group", "personal" });
             cmbType.SelectedIndex = 0;
-            cmbType.SelectedIndexChanged += CmbType_SelectedIndexChanged; // событие при смене
-            AddRow("Тип:", cmbType);
+            cmbType.SelectedIndexChanged += CmbType_SelectedIndexChanged; // event on type change
+            AddRow("Type:", cmbType);
 
             // Trainer
             cmbTrainer = new ComboBox() { Anchor = AnchorStyles.Left | AnchorStyles.Right, DropDownStyle = ComboBoxStyle.DropDownList };
-            AddRow("Тренер:", cmbTrainer);
+            AddRow("Trainer:", cmbTrainer);
 
             // Schedule
             dtpSchedule = new DateTimePicker() { Anchor = AnchorStyles.Left | AnchorStyles.Right, Format = DateTimePickerFormat.Custom, CustomFormat = "dd.MM.yyyy HH:mm" };
-            AddRow("Дата и время:", dtpSchedule);
+            AddRow("Schedule (date/time):", dtpSchedule);
 
             // Duration
             var durationPanel = new FlowLayoutPanel() { FlowDirection = FlowDirection.LeftToRight, Dock = DockStyle.Fill };
             nudDurationHours = new NumericUpDown() { Minimum = 0, Maximum = 24, Width = 60 };
             nudDurationMinutes = new NumericUpDown() { Minimum = 0, Maximum = 59, Width = 60 };
-            durationPanel.Controls.Add(new Label() { Text = "Часы:", AutoSize = true, TextAlign = System.Drawing.ContentAlignment.MiddleLeft });
+            durationPanel.Controls.Add(new Label() { Text = "Hours:", AutoSize = true, TextAlign = System.Drawing.ContentAlignment.MiddleLeft });
             durationPanel.Controls.Add(nudDurationHours);
-            durationPanel.Controls.Add(new Label() { Text = "Минуты:", AutoSize = true, TextAlign = System.Drawing.ContentAlignment.MiddleLeft });
+            durationPanel.Controls.Add(new Label() { Text = "Minutes:", AutoSize = true, TextAlign = System.Drawing.ContentAlignment.MiddleLeft });
             durationPanel.Controls.Add(nudDurationMinutes);
-            AddRow("Продолжительность:", durationPanel);
+            AddRow("Duration:", durationPanel);
 
             // Capacity
             nudCapacity = new NumericUpDown() { Minimum = 1, Maximum = 100, Width = 100 };
-            AddRow("Вместимость:", nudCapacity);
+            AddRow("Capacity:", nudCapacity);
 
-            // **Group Price** (новое поле)
+            // Group Price (new field)
             nudGroupPrice = new NumericUpDown()
             {
                 Minimum = 0,
@@ -104,13 +105,13 @@ namespace AdminApp.Forms
                 Value = 0,
                 Anchor = AnchorStyles.Left | AnchorStyles.Right
             };
-            AddRow("Цена для группы:", nudGroupPrice);
+            AddRow("Group Price:", nudGroupPrice);
 
-            // Save and Cancel Buttons
-            btnSave = new Button() { Text = "Сохранить", Anchor = AnchorStyles.None, Width = 100 };
+            // Save/Cancel Buttons
+            btnSave = new Button() { Text = "Save", Anchor = AnchorStyles.None, Width = 100 };
             btnSave.Click += async (s, e) => await SaveTrainingAsync();
 
-            btnCancel = new Button() { Text = "Отмена", Anchor = AnchorStyles.None, Width = 100 };
+            btnCancel = new Button() { Text = "Cancel", Anchor = AnchorStyles.None, Width = 100 };
             btnCancel.Click += (s, e) => this.Close();
 
             var flowPanel = new FlowLayoutPanel() { FlowDirection = FlowDirection.RightToLeft, Dock = DockStyle.Fill };
@@ -120,8 +121,7 @@ namespace AdminApp.Forms
             tableLayout.Controls.Add(flowPanel, 1, tableLayout.RowCount - 1);
             this.Controls.Add(tableLayout);
 
-            // Изначально, если тип по умолчанию "group", то поле доступно
-            // Если "personal", то поле можно заблокировать:
+            // Update Group Price field state based on the selected type
             UpdateGroupPriceVisibility();
         }
 
@@ -136,15 +136,13 @@ namespace AdminApp.Forms
                 return;
 
             string? selectedType = cmbType.SelectedItem?.ToString();
-            // Если выбрано group - поле для цены группы активно
-            // Если personal - можно скрыть или заблокировать
+            // If "group" => group price is enabled, otherwise disabled
             if (selectedType == "group")
             {
                 nudGroupPrice.Enabled = true;
             }
             else
             {
-                // Если персональная тренировка
                 nudGroupPrice.Value = 0;
                 nudGroupPrice.Enabled = false;
             }
@@ -164,7 +162,7 @@ namespace AdminApp.Forms
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Ошибка при загрузке тренеров: {ex.Message}", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"Error loading trainers: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -175,28 +173,28 @@ namespace AdminApp.Forms
                 nudCapacity == null || nudGroupPrice == null)
                 return;
 
-            // Валидация
+            // Validation
             if (string.IsNullOrWhiteSpace(txtTitle.Text))
             {
-                MessageBox.Show("Пожалуйста, заполните поле названия.", "Внимание", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Please enter a title.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
             if (dtpSchedule.Value < DateTime.Now)
             {
-                MessageBox.Show("Дата и время тренировки должны быть в будущем.", "Внимание", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("The training date/time must be in the future.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
             var selectedTrainerId = cmbTrainer.SelectedValue?.ToString();
             if (string.IsNullOrEmpty(selectedTrainerId))
             {
-                MessageBox.Show("Пожалуйста, выберите тренера.", "Внимание", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Please select a trainer.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
             var trainingType = cmbType.SelectedItem?.ToString() ?? "group";
             
-            // Создаём новую тренировку
+            // Create a new training
             var newTraining = new Training
             {
                 Title = txtTitle.Text.Trim(),
@@ -211,14 +209,14 @@ namespace AdminApp.Forms
                 UpdatedAt = DateTime.UtcNow
             };
 
-            // Если выбран group, берём значение
+            // If group => set group price
             if (trainingType == "group")
             {
                 newTraining.GroupPrice = (double)nudGroupPrice.Value;
             }
             else
             {
-                newTraining.GroupPrice = null; // или 0
+                newTraining.GroupPrice = null; 
             }
 
             try
@@ -226,17 +224,17 @@ namespace AdminApp.Forms
                 var success = await _trainingService.InsertTrainingAsync(newTraining);
                 if (success)
                 {
-                    MessageBox.Show("Тренировка успешно добавлена!", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show("Training has been successfully added!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     this.Close();
                 }
                 else
                 {
-                    MessageBox.Show("Не удалось добавить тренировку.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Failed to add the training.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Ошибка при добавлении тренировки: {ex.Message}", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"Error adding training: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }

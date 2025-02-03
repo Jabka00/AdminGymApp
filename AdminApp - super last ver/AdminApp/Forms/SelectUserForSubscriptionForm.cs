@@ -23,12 +23,12 @@ namespace AdminApp.Forms
 
         private void InitializeComponents()
         {
-            this.Text = "Выберите пользователя";
+            this.Text = "Chose User";
             this.Size = new System.Drawing.Size(400, 150);
             this.FormBorderStyle = FormBorderStyle.FixedDialog;
             this.StartPosition = FormStartPosition.CenterParent;
 
-            var lbl = new Label() { Text = "Пользователь:", AutoSize = true, Left = 10, Top = 20 };
+            var lbl = new Label() { Text = "User:", AutoSize = true, Left = 10, Top = 20 };
             cmbUsers = new ComboBox() { Left = 120, Top = 20, Width = 250, DropDownStyle = ComboBoxStyle.DropDownList };
             btnManage = new Button() { Text = "Управлять подпиской", Left = 120, Top = 60, Width = 150 };
             btnManage.Click += BtnManage_Click;
@@ -50,11 +50,10 @@ namespace AdminApp.Forms
         {
             if (cmbUsers.SelectedValue == null)
             {
-                MessageBox.Show("Пожалуйста, выберите пользователя.", "Внимание", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Chose User.", "Внимание", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
             string userId = cmbUsers.SelectedValue.ToString();
-            // Получаем сервис подписок (можно через DI, здесь создаём новый экземпляр)
             var subscriptionService = new SubscriptionService();
             var manageForm = new ManageSubscriptionForm(userId, subscriptionService);
             manageForm.ShowDialog();

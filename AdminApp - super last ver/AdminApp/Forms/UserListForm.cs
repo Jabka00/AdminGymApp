@@ -22,7 +22,7 @@ namespace AdminApp.Forms
 
         private void InitializeComponents()
         {
-            this.Text = "Список клиентов";
+            this.Text = "User List";
             this.Size = new System.Drawing.Size(900, 600);
             this.FormBorderStyle = FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
@@ -39,7 +39,7 @@ namespace AdminApp.Forms
 
             btnRefresh = new Button()
             {
-                Text = "Обновить",
+                Text = "update",
                 Dock = DockStyle.Top,
                 Height = 40
             };
@@ -47,7 +47,7 @@ namespace AdminApp.Forms
 
             lblLoading = new Label()
             {
-                Text = "Загрузка...",
+                Text = "Loading...",
                 Dock = DockStyle.Bottom,
                 TextAlign = System.Drawing.ContentAlignment.MiddleCenter,
                 Visible = false
@@ -55,7 +55,7 @@ namespace AdminApp.Forms
 
             // Контекстное меню для редактирования пользователя
             var contextMenu = new ContextMenuStrip();
-            var editItem = new ToolStripMenuItem("Редактировать");
+            var editItem = new ToolStripMenuItem("Edit");
             editItem.Click += EditUser;
             contextMenu.Items.Add(editItem);
             dgvUsers.ContextMenuStrip = contextMenu;

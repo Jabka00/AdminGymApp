@@ -24,7 +24,7 @@ namespace AdminApp.Forms
     
         private void InitializeComponents()
         {
-            this.Text = "Список подписок";
+            this.Text = "Subscription list";
             this.Size = new System.Drawing.Size(900, 600);
             this.FormBorderStyle = FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
@@ -50,7 +50,7 @@ namespace AdminApp.Forms
     
             btnRefresh = new Button()
             {
-                Text = "Обновить",
+                Text = "Update",
                 Dock = DockStyle.Top,
                 Height = 40
             };
@@ -58,7 +58,7 @@ namespace AdminApp.Forms
     
             lblLoading = new Label()
             {
-                Text = "Загрузка...",
+                Text = "Loading...",
                 Dock = DockStyle.Bottom,
                 TextAlign = System.Drawing.ContentAlignment.MiddleCenter,
                 Visible = false

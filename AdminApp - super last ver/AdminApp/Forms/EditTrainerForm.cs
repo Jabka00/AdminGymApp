@@ -1,3 +1,4 @@
+
 using System;
 using System.Windows.Forms;
 using AdminApp.Models;
@@ -27,7 +28,7 @@ namespace AdminApp.Forms
 
         private void InitializeComponents()
         {
-            this.Text = "Редактировать тренера";
+            this.Text = "Edit Trainer";
             this.Size = new System.Drawing.Size(400, 400);
             this.FormBorderStyle = FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
@@ -45,7 +46,6 @@ namespace AdminApp.Forms
             tableLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 150F));
             tableLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
 
-            // Функция для добавления строк
             void AddRow(string labelText, Control control)
             {
                 var lbl = new Label() { Text = labelText, Anchor = AnchorStyles.Right, AutoSize = true };
@@ -55,7 +55,7 @@ namespace AdminApp.Forms
 
             // Name
             txtName = new TextBox() { Anchor = AnchorStyles.Left | AnchorStyles.Right };
-            AddRow("Имя тренера:", txtName);
+            AddRow("Trainer Name:", txtName);
 
             // Working Days
             clbWorkingDays = new CheckedListBox()
@@ -64,13 +64,13 @@ namespace AdminApp.Forms
                 CheckOnClick = true
             };
             clbWorkingDays.Items.AddRange(Enum.GetNames(typeof(DayOfWeek)));
-            AddRow("Рабочие дни:", clbWorkingDays);
+            AddRow("Working Days:", clbWorkingDays);
 
-            // Save and Cancel Buttons
-            btnSave = new Button() { Text = "Сохранить", Anchor = AnchorStyles.None, Width = 100 };
+            // Save/Cancel
+            btnSave = new Button() { Text = "Save", Anchor = AnchorStyles.None, Width = 100 };
             btnSave.Click += async (s, e) => await SaveTrainer();
 
-            btnCancel = new Button() { Text = "Отмена", Anchor = AnchorStyles.None, Width = 100 };
+            btnCancel = new Button() { Text = "Cancel", Anchor = AnchorStyles.None, Width = 100 };
             btnCancel.Click += (s, e) => this.Close();
 
             var flowPanel = new FlowLayoutPanel() { FlowDirection = FlowDirection.RightToLeft, Dock = DockStyle.Fill };
@@ -107,20 +107,19 @@ namespace AdminApp.Forms
             if (txtName == null || clbWorkingDays == null || btnSave == null)
                 return;
 
-            // Валидация обязательных полей
             if (string.IsNullOrWhiteSpace(txtName.Text))
             {
-                MessageBox.Show("Пожалуйста, заполните имя тренера.", "Внимание", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Please enter the trainer's name.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
             if (clbWorkingDays.CheckedItems.Count == 0)
             {
-                MessageBox.Show("Пожалуйста, выберите хотя бы один рабочий день.", "Внимание", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Please select at least one working day.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
-            // Обновление данных тренера
+            // Update the trainer data
             _trainer.Name = txtName.Text.Trim();
             _trainer.WorkingDays = new List<DayOfWeek>();
 
@@ -134,16 +133,15 @@ namespace AdminApp.Forms
 
             _trainer.UpdatedAt = DateTime.UtcNow;
 
-            // Обновление тренера
             var success = await _trainerService.UpdateTrainerAsync(_trainer);
             if (success)
             {
-                MessageBox.Show("Данные тренера успешно обновлены!", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Trainer data has been successfully updated!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 this.Close();
             }
             else
             {
-                MessageBox.Show("Не удалось обновить данные тренера.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Failed to update trainer data.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }

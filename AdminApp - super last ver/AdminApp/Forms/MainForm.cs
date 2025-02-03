@@ -1,3 +1,4 @@
+
 using System;
 using System.Windows.Forms;
 using AdminApp.DB;
@@ -12,8 +13,8 @@ namespace AdminApp.Forms
         private Button btnAddUser;
         private Button btnManageTrainings;
         private Button btnManageTrainers;
-        private Button btnManageSubscriptions; // Кнопка для подписок
-        private Button btnManageGymAttendance; // Кнопка для управления посещениями зала
+        private Button btnManageSubscriptions;
+        private Button btnManageGymAttendance;
         private readonly IServiceProvider _serviceProvider;
     
         public MainForm(IServiceProvider serviceProvider)
@@ -24,7 +25,7 @@ namespace AdminApp.Forms
     
         private void InitializeComponents()
         {
-            this.Text = "Администраторская панель";
+            this.Text = "Administrator Panel";
             this.Size = new System.Drawing.Size(400, 500);
             this.FormBorderStyle = FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
@@ -32,7 +33,7 @@ namespace AdminApp.Forms
     
             btnViewUsers = new Button()
             {
-                Text = "Просмотр клиентов",
+                Text = "View Users",
                 Top = 50,
                 Width = 300,
                 Height = 50,
@@ -42,7 +43,7 @@ namespace AdminApp.Forms
     
             btnAddUser = new Button()
             {
-                Text = "Добавить клиента",
+                Text = "Add User",
                 Top = btnViewUsers.Top + 70,
                 Width = 300,
                 Height = 50,
@@ -52,7 +53,7 @@ namespace AdminApp.Forms
     
             btnManageTrainings = new Button()
             {
-                Text = "Управление тренировками",
+                Text = "Manage Trainings",
                 Top = btnAddUser.Top + 70,
                 Width = 300,
                 Height = 50,
@@ -62,7 +63,7 @@ namespace AdminApp.Forms
     
             btnManageTrainers = new Button()
             {
-                Text = "Управление тренерами",
+                Text = "Manage Trainers",
                 Top = btnManageTrainings.Top + 70,
                 Width = 300,
                 Height = 50,
@@ -72,7 +73,7 @@ namespace AdminApp.Forms
     
             btnManageSubscriptions = new Button()
             {
-                Text = "Управление подписками",
+                Text = "Manage Subscriptions",
                 Top = btnManageTrainers.Top + 70,
                 Width = 300,
                 Height = 50,
@@ -82,7 +83,7 @@ namespace AdminApp.Forms
     
             btnManageGymAttendance = new Button()
             {
-                Text = "Управление посещениями зала",
+                Text = "Gym Attendance Management",
                 Top = btnManageSubscriptions.Top + 70,
                 Width = 300,
                 Height = 50,
@@ -100,7 +101,6 @@ namespace AdminApp.Forms
     
         private void OpenGymAttendanceMenu()
         {
-            // Получаем сервис через DI или создаём новый (пример):
             var gymVisitService = _serviceProvider.GetService<GymVisitService>()
                                   ?? new GymVisitService(new DatabaseManager("mongodb+srv://Admin:strongpassword@cluster0.lrajj.mongodb.net", "GymDatabase"));
             var form = new GymAttendanceMenuForm(gymVisitService);
@@ -133,7 +133,6 @@ namespace AdminApp.Forms
     
         private void OpenSubscriptionListForm()
         {
-            // Если SubscriptionService зарегистрирован через DI, получаем его; иначе создаем новый экземпляр.
             var subscriptionService = _serviceProvider.GetService<SubscriptionService>() ?? new SubscriptionService();
             var subscriptionListForm = new SubscriptionListForm(subscriptionService);
             subscriptionListForm.ShowDialog();

@@ -1,9 +1,10 @@
+
 using System;
 using System.Windows.Forms;
 using AdminApp.Models;
 using AdminApp.Services;
-using System.Threading.Tasks;
 using System.Linq;
+using System.Collections.Generic;
 
 namespace AdminApp.Forms
 {
@@ -24,7 +25,7 @@ namespace AdminApp.Forms
 
         private void InitializeComponents()
         {
-            this.Text = "Записанные пользователи";
+            this.Text = "Enrolled Users";
             this.Size = new System.Drawing.Size(600, 400);
             this.FormBorderStyle = FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
@@ -32,7 +33,7 @@ namespace AdminApp.Forms
 
             lblTrainingTitle = new Label()
             {
-                Text = $"Тренировка: {_training.Title}",
+                Text = $"Training: {_training.Title}",
                 Dock = DockStyle.Top,
                 TextAlign = System.Drawing.ContentAlignment.MiddleCenter,
                 Font = new System.Drawing.Font("Arial", 12, System.Drawing.FontStyle.Bold),
@@ -75,7 +76,7 @@ namespace AdminApp.Forms
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Ошибка при загрузке пользователей: {ex.Message}", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"Error loading users: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }

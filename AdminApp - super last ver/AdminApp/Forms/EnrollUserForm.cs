@@ -1,3 +1,4 @@
+
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -24,7 +25,7 @@ namespace AdminApp.Forms
         private readonly TrainerService _trainerService;
         private readonly UserService _userService;
 
-        private List<User> _allUsers = new List<User>(); // Хранение всех пользователей для фильтрации
+        private List<User> _allUsers = new List<User>();
 
         public EnrollUserForm(Training training, TrainingService trainingService, TrainerService trainerService, UserService userService)
         {
@@ -39,7 +40,7 @@ namespace AdminApp.Forms
 
         private void InitializeComponents()
         {
-            this.Text = $"Записать пользователя на тренировку '{_training.Title}'";
+            this.Text = $"Enroll User to '{_training.Title}'";
             this.Size = new System.Drawing.Size(450, 300);
             this.FormBorderStyle = FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
@@ -47,7 +48,7 @@ namespace AdminApp.Forms
 
             lblSelectUser = new Label()
             {
-                Text = "Выберите пользователя:",
+                Text = "Select a user:",
                 Location = new System.Drawing.Point(20, 20),
                 AutoSize = true
             };
@@ -61,7 +62,7 @@ namespace AdminApp.Forms
 
             lblSearch = new Label()
             {
-                Text = "Поиск пользователя:",
+                Text = "Search user:",
                 Location = new System.Drawing.Point(20, 90),
                 AutoSize = true
             };
@@ -71,11 +72,11 @@ namespace AdminApp.Forms
                 Location = new System.Drawing.Point(20, 120),
                 Width = 240
             };
-            txtSearch.KeyDown += TxtSearch_KeyDown; // Позволяет выполнять поиск по нажатию Enter
+            txtSearch.KeyDown += TxtSearch_KeyDown;
 
             btnSearch = new Button()
             {
-                Text = "Поиск",
+                Text = "Search",
                 Location = new System.Drawing.Point(270, 118),
                 Width = 90
             };
@@ -83,7 +84,7 @@ namespace AdminApp.Forms
 
             btnSave = new Button()
             {
-                Text = "Сохранить",
+                Text = "Save",
                 Location = new System.Drawing.Point(200, 180),
                 Width = 80
             };
@@ -91,7 +92,7 @@ namespace AdminApp.Forms
 
             btnCancel = new Button()
             {
-                Text = "Отмена",
+                Text = "Cancel",
                 Location = new System.Drawing.Point(290, 180),
                 Width = 80
             };
@@ -124,16 +125,16 @@ namespace AdminApp.Forms
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Ошибка при загрузке пользователей: {ex.Message}", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"Error loading users: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 this.Close();
             }
         }
 
         private void UpdateUserComboBox(List<User> users)
         {
-            cmbUsers.DataSource = null; // Очищаем текущий источник данных
+            cmbUsers.DataSource = null;
             cmbUsers.DataSource = users;
-            cmbUsers.DisplayMember = "Username"; // Предполагается, что у модели User есть свойство Username
+            cmbUsers.DisplayMember = "Username";
             cmbUsers.ValueMember = "Id";
         }
 
@@ -144,6 +145,7 @@ namespace AdminApp.Forms
             if (string.IsNullOrEmpty(query))
             {
                 UpdateUserComboBox(_allUsers);
+                lblStatus.Text = "";
                 return;
             }
 
@@ -156,7 +158,7 @@ namespace AdminApp.Forms
             }
             else
             {
-                lblStatus.Text = "Пользователи не найдены.";
+                lblStatus.Text = "No users found.";
                 cmbUsers.DataSource = null;
             }
         }
@@ -175,7 +177,7 @@ namespace AdminApp.Forms
         {
             if (cmbUsers.SelectedValue == null)
             {
-                lblStatus.Text = "Пожалуйста, выберите пользователя.";
+                lblStatus.Text = "Please select a user.";
                 return;
             }
 
@@ -186,17 +188,17 @@ namespace AdminApp.Forms
                 bool success = await _trainingService.EnrollUserAsync(_training.Id!, userId);
                 if (success)
                 {
-                    MessageBox.Show("Пользователь успешно записан на тренировку!", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show("User has been successfully enrolled to the training!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     this.Close();
                 }
                 else
                 {
-                    lblStatus.Text = "Не удалось записать пользователя. Возможно, тренировка заполнена или пользователь уже записан.";
+                    lblStatus.Text = "Failed to enroll user. Possibly the training is full or the user is already enrolled.";
                 }
             }
             catch (Exception ex)
             {
-                lblStatus.Text = $"Ошибка: {ex.Message}";
+                lblStatus.Text = $"Error: {ex.Message}";
             }
         }
     }
