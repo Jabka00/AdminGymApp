@@ -1,0 +1,54 @@
+C:\Users\yaros\Desktop\c#\AdminApp\AdminApp\bin\Debug\net8.0-windows\AdminApp.exe
+C:\Users\yaros\Desktop\c#\AdminApp\AdminApp\bin\Debug\net8.0-windows\AdminApp.deps.json
+C:\Users\yaros\Desktop\c#\AdminApp\AdminApp\bin\Debug\net8.0-windows\AdminApp.runtimeconfig.json
+C:\Users\yaros\Desktop\c#\AdminApp\AdminApp\bin\Debug\net8.0-windows\AdminApp.dll
+C:\Users\yaros\Desktop\c#\AdminApp\AdminApp\bin\Debug\net8.0-windows\AdminApp.pdb
+C:\Users\yaros\Desktop\c#\AdminApp\AdminApp\bin\Debug\net8.0-windows\DnsClient.dll
+C:\Users\yaros\Desktop\c#\AdminApp\AdminApp\bin\Debug\net8.0-windows\Microsoft.Extensions.Logging.Abstractions.dll
+C:\Users\yaros\Desktop\c#\AdminApp\AdminApp\bin\Debug\net8.0-windows\MongoDB.Bson.dll
+C:\Users\yaros\Desktop\c#\AdminApp\AdminApp\bin\Debug\net8.0-windows\MongoDB.Driver.dll
+C:\Users\yaros\Desktop\c#\AdminApp\AdminApp\bin\Debug\net8.0-windows\SharpCompress.dll
+C:\Users\yaros\Desktop\c#\AdminApp\AdminApp\bin\Debug\net8.0-windows\Snappier.dll
+C:\Users\yaros\Desktop\c#\AdminApp\AdminApp\bin\Debug\net8.0-windows\ZstdSharp.dll
+C:\Users\yaros\Desktop\c#\AdminApp\AdminApp\obj\Debug\net8.0-windows\AdminApp.csproj.AssemblyReference.cache
+C:\Users\yaros\Desktop\c#\AdminApp\AdminApp\obj\Debug\net8.0-windows\AdminApp.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\yaros\Desktop\c#\AdminApp\AdminApp\obj\Debug\net8.0-windows\AdminApp.AssemblyInfoInputs.cache
+C:\Users\yaros\Desktop\c#\AdminApp\AdminApp\obj\Debug\net8.0-windows\AdminApp.AssemblyInfo.cs
+C:\Users\yaros\Desktop\c#\AdminApp\AdminApp\obj\Debug\net8.0-windows\AdminApp.csproj.CoreCompileInputs.cache
+C:\Users\yaros\Desktop\c#\AdminApp\AdminApp\obj\Debug\net8.0-windows\AdminApp.csproj.Up2Date
+C:\Users\yaros\Desktop\c#\AdminApp\AdminApp\obj\Debug\net8.0-windows\AdminApp.dll
+C:\Users\yaros\Desktop\c#\AdminApp\AdminApp\obj\Debug\net8.0-windows\refint\AdminApp.dll
+C:\Users\yaros\Desktop\c#\AdminApp\AdminApp\obj\Debug\net8.0-windows\AdminApp.pdb
+C:\Users\yaros\Desktop\c#\AdminApp\AdminApp\obj\Debug\net8.0-windows\AdminApp.genruntimeconfig.cache
+C:\Users\yaros\Desktop\c#\AdminApp\AdminApp\obj\Debug\net8.0-windows\ref\AdminApp.dll
+C:\Users\yaros\Desktop\c#\AdminApp\AdminApp\bin\Debug\net8.0-windows\Microsoft.Extensions.DependencyInjection.dll
+C:\Users\yaros\Desktop\c#\AdminApp\AdminApp\bin\Debug\net8.0-windows\Microsoft.Extensions.DependencyInjection.Abstractions.dll
+C:\Users\yaros\Desktop\c#\AdminApp\AdminApp\bin\Debug\net8.0-windows\Serilog.dll
+C:\Users\yaros\Desktop\c#\AdminApp\AdminApp\bin\Debug\net8.0-windows\Serilog.Sinks.File.dll
+C:\Users\yaros\Downloads\AdminApp - super last ver\AdminApp - super last ver\AdminApp\bin\Debug\net8.0-windows\AdminApp.exe
+C:\Users\yaros\Downloads\AdminApp - super last ver\AdminApp - super last ver\AdminApp\bin\Debug\net8.0-windows\AdminApp.deps.json
+C:\Users\yaros\Downloads\AdminApp - super last ver\AdminApp - super last ver\AdminApp\bin\Debug\net8.0-windows\AdminApp.runtimeconfig.json
+C:\Users\yaros\Downloads\AdminApp - super last ver\AdminApp - super last ver\AdminApp\bin\Debug\net8.0-windows\AdminApp.dll
+C:\Users\yaros\Downloads\AdminApp - super last ver\AdminApp - super last ver\AdminApp\bin\Debug\net8.0-windows\AdminApp.pdb
+C:\Users\yaros\Downloads\AdminApp - super last ver\AdminApp - super last ver\AdminApp\bin\Debug\net8.0-windows\DnsClient.dll
+C:\Users\yaros\Downloads\AdminApp - super last ver\AdminApp - super last ver\AdminApp\bin\Debug\net8.0-windows\Microsoft.Extensions.DependencyInjection.dll
+C:\Users\yaros\Downloads\AdminApp - super last ver\AdminApp - super last ver\AdminApp\bin\Debug\net8.0-windows\Microsoft.Extensions.DependencyInjection.Abstractions.dll
+C:\Users\yaros\Downloads\AdminApp - super last ver\AdminApp - super last ver\AdminApp\bin\Debug\net8.0-windows\Microsoft.Extensions.Logging.Abstractions.dll
+C:\Users\yaros\Downloads\AdminApp - super last ver\AdminApp - super last ver\AdminApp\bin\Debug\net8.0-windows\MongoDB.Bson.dll
+C:\Users\yaros\Downloads\AdminApp - super last ver\AdminApp - super last ver\AdminApp\bin\Debug\net8.0-windows\MongoDB.Driver.dll
+C:\Users\yaros\Downloads\AdminApp - super last ver\AdminApp - super last ver\AdminApp\bin\Debug\net8.0-windows\Serilog.dll
+C:\Users\yaros\Downloads\AdminApp - super last ver\AdminApp - super last ver\AdminApp\bin\Debug\net8.0-windows\Serilog.Sinks.File.dll
+C:\Users\yaros\Downloads\AdminApp - super last ver\AdminApp - super last ver\AdminApp\bin\Debug\net8.0-windows\SharpCompress.dll
+C:\Users\yaros\Downloads\AdminApp - super last ver\AdminApp - super last ver\AdminApp\bin\Debug\net8.0-windows\Snappier.dll
+C:\Users\yaros\Downloads\AdminApp - super last ver\AdminApp - super last ver\AdminApp\bin\Debug\net8.0-windows\ZstdSharp.dll
+C:\Users\yaros\Downloads\AdminApp - super last ver\AdminApp - super last ver\AdminApp\obj\Debug\net8.0-windows\AdminApp.csproj.AssemblyReference.cache
+C:\Users\yaros\Downloads\AdminApp - super last ver\AdminApp - super last ver\AdminApp\obj\Debug\net8.0-windows\AdminApp.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\yaros\Downloads\AdminApp - super last ver\AdminApp - super last ver\AdminApp\obj\Debug\net8.0-windows\AdminApp.AssemblyInfoInputs.cache
+C:\Users\yaros\Downloads\AdminApp - super last ver\AdminApp - super last ver\AdminApp\obj\Debug\net8.0-windows\AdminApp.AssemblyInfo.cs
+C:\Users\yaros\Downloads\AdminApp - super last ver\AdminApp - super last ver\AdminApp\obj\Debug\net8.0-windows\AdminApp.csproj.CoreCompileInputs.cache
+C:\Users\yaros\Downloads\AdminApp - super last ver\AdminApp - super last ver\AdminApp\obj\Debug\net8.0-windows\AdminApp.csproj.Up2Date
+C:\Users\yaros\Downloads\AdminApp - super last ver\AdminApp - super last ver\AdminApp\obj\Debug\net8.0-windows\AdminApp.dll
+C:\Users\yaros\Downloads\AdminApp - super last ver\AdminApp - super last ver\AdminApp\obj\Debug\net8.0-windows\refint\AdminApp.dll
+C:\Users\yaros\Downloads\AdminApp - super last ver\AdminApp - super last ver\AdminApp\obj\Debug\net8.0-windows\AdminApp.pdb
+C:\Users\yaros\Downloads\AdminApp - super last ver\AdminApp - super last ver\AdminApp\obj\Debug\net8.0-windows\AdminApp.genruntimeconfig.cache
+C:\Users\yaros\Downloads\AdminApp - super last ver\AdminApp - super last ver\AdminApp\obj\Debug\net8.0-windows\ref\AdminApp.dll
