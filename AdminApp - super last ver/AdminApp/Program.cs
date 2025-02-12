@@ -1,63 +1,52 @@
 using System;
 using System.Windows.Forms;
 using Microsoft.Extensions.DependencyInjection;
-using AdminApp.DB;
 using AdminApp.Forms;
 using AdminApp.Services;
-using System.Threading.Tasks;
+using AdminApp.DB;
 
 namespace AdminApp
 {
-    public static class Program
+    static class Program
     {
-        public static ServiceProvider? ServiceProvider { get; private set; }
-
         [STAThread]
-        public static async Task Main()
+        static void Main()
         {
-            // Настройка сервисов DI
+            // Set up DI container.
             var services = new ServiceCollection();
-            ConfigureServices(services);
 
-            ServiceProvider = services.BuildServiceProvider();
+            // Register DatabaseManager with connection details.
+            services.AddSingleton<DatabaseManager>(new DatabaseManager(
+                "mongodb+srv://Admin:strongpassword@cluster0.lrajj.mongodb.net", 
+                "GymDatabase"));
 
-            // Попытка подключения к базе данных
-            var dbManager = ServiceProvider.GetRequiredService<DatabaseManager>();
-            try
-            {
-                await dbManager.ConnectAsync();
-            }
-            catch
-            {
-                MessageBox.Show("Не удалось подключиться к базе данных. Приложение будет закрыто.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
+            // Register all services.
+            services.AddSingleton<UserService>();
+            services.AddSingleton<PurchaseService>();       // <-- Required for revenue from purchases.
+            services.AddSingleton<GymVisitService>();
+            services.AddSingleton<TrainingService>();
+            services.AddSingleton<TrainerService>();
+            services.AddSingleton<SubscriptionService>();
+            services.AddSingleton<ProductService>();
 
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(ServiceProvider.GetRequiredService<MainForm>());
-        }
-
-        private static void ConfigureServices(ServiceCollection services)
-        {
-            // Регистрация зависимостей
-            services.AddSingleton<DatabaseManager>(provider =>
-                new DatabaseManager("mongodb+srv://Admin:strongpassword@cluster0.lrajj.mongodb.net", "GymDatabase"));
-            services.AddTransient<UserService>();
-            services.AddTransient<TrainingService>();
-            services.AddTransient<TrainerService>(); // Добавлено
+            // Register forms.
             services.AddTransient<MainForm>();
             services.AddTransient<UserListForm>();
             services.AddTransient<AddUserForm>();
             services.AddTransient<TrainingListForm>();
-            services.AddTransient<AddTrainingForm>();
-            services.AddTransient<EditTrainingForm>();
-            services.AddTransient<EnrollUserForm>();
-            services.AddTransient<TrainerListForm>(); // Добавлено
-            services.AddTransient<AddTrainerForm>();
-            services.AddTransient<EditTrainerForm>();
-            services.AddTransient<EnrolledUsersForm>(); // Добавлено
-        }
+            services.AddTransient<TrainerListForm>();
+            services.AddTransient<SubscriptionListForm>();
+            services.AddTransient<GymAttendanceMenuForm>();
+            services.AddTransient<ProductListForm>();
+            services.AddTransient<PurchaseHistoryForm>();
+            // Note: StatisticsForm will be resolved with its dependencies.
+            services.AddTransient<StatisticsForm>();
 
+            var serviceProvider = services.BuildServiceProvider();
+
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
+            Application.Run(serviceProvider.GetRequiredService<MainForm>());
+        }
     }
 }

@@ -133,6 +133,10 @@ namespace AdminApp.Services
                 return (false, "Ошибка при выписке пользователя.");
             }
         }
+        public async Task<List<GymVisit>> GetAllGymVisitsAsync()
+        {
+            return await _gymVisits.Find(_ => true).ToListAsync();
+        }
 
         // Получить историю посещений для пользователя
         public async Task<List<GymVisit>> GetVisitHistoryAsync(string userId)
