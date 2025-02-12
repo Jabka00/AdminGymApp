@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "VP3se45jBTA=",
+  "dgSpecHash": "Gn/WZai6Gps=",
   "success": true,
-  "projectFilePath": "C:\\Users\\yaros\\Downloads\\AdminApp - super last ver\\AdminApp - super last ver\\AdminApp\\AdminApp.csproj",
+  "projectFilePath": "C:\\Users\\yaros\\Documents\\GitHub\\AdminGymApp\\AdminApp - super last ver\\AdminApp\\AdminApp.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\yaros\\.nuget\\packages\\dnsclient\\1.6.1\\dnsclient.1.6.1.nupkg.sha512",
     "C:\\Users\\yaros\\.nuget\\packages\\microsoft.extensions.dependencyinjection\\9.0.1\\microsoft.extensions.dependencyinjection.9.0.1.nupkg.sha512",

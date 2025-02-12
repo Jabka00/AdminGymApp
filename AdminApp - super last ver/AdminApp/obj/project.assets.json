@@ -1475,11 +1475,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\yaros\\Downloads\\AdminApp - super last ver\\AdminApp - super last ver\\AdminApp\\AdminApp.csproj",
+      "projectUniqueName": "C:\\Users\\yaros\\Documents\\GitHub\\AdminGymApp\\AdminApp - super last ver\\AdminApp\\AdminApp.csproj",
       "projectName": "AdminApp",
-      "projectPath": "C:\\Users\\yaros\\Downloads\\AdminApp - super last ver\\AdminApp - super last ver\\AdminApp\\AdminApp.csproj",
+      "projectPath": "C:\\Users\\yaros\\Documents\\GitHub\\AdminGymApp\\AdminApp - super last ver\\AdminApp\\AdminApp.csproj",
       "packagesPath": "C:\\Users\\yaros\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\yaros\\Downloads\\AdminApp - super last ver\\AdminApp - super last ver\\AdminApp\\obj\\",
+      "outputPath": "C:\\Users\\yaros\\Documents\\GitHub\\AdminGymApp\\AdminApp - super last ver\\AdminApp\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\yaros\\AppData\\Roaming\\NuGet\\NuGet.Config"
