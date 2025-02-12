@@ -13,11 +13,9 @@ namespace AdminApp.Services
     
         public SubscriptionService()
         {
-            // Используем тот же connectionString и имя базы, что и в клиентском приложении
             string connectionString = "mongodb+srv://Admin:strongpassword@cluster0.lrajj.mongodb.net";
-            string databaseName = "GymDatabase"; // изменено на GymDatabase (то, что используется клиентом)
+            string databaseName = "GymDatabase";
             var subscriptionDbManager = new DatabaseManager(connectionString, databaseName);
-            // Получаем коллекцию "subscriptions"
             _subscriptions = subscriptionDbManager.GetCollection<Subscription>("subscriptions");
         }
     

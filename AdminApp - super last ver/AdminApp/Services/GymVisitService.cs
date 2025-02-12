@@ -30,30 +30,25 @@ namespace AdminApp.Services
         // Функция регистрации входа (CheckIn)
         public async Task<(bool success, string message)> CheckInUserAsync(string userId)
         {
-            // Если уже есть активная запись, отказ
             var activeVisit = await GetActiveVisitByUserIdAsync(userId);
             if (activeVisit != null)
             {
                 return (false, "Пользователь уже находится в зале.");
             }
 
-            // Получаем данные пользователя
             var user = await _users.Find(u => u.Id == userId).FirstOrDefaultAsync();
             if (user == null)
             {
                 return (false, "Пользователь не найден.");
             }
 
-            // Определяем пол (предполагается, что в базе хранится «male» или «female»)
             string gender = user.Gender.ToLower();
             if (gender != "male" && gender != "female")
                 gender = "male";
 
-            // Получаем все активные визиты для данного пола
             var activeVisitsForGender = await _gymVisits.Find(gv => gv.Gender.ToLower() == gender && gv.CheckOutTime == null).ToListAsync();
             var occupiedLockers = activeVisitsForGender.Select(gv => gv.LockerNumber).ToHashSet();
 
-            // Из 35 шкафчиков (номера от 1 до 35) выбираем сначала непарный, затем чётный
             int? lockerNumber = null;
             for (int num = 1; num <= 35; num += 2)
             {
@@ -79,7 +74,6 @@ namespace AdminApp.Services
                 return (false, "Нет свободных шкафчиков.");
             }
 
-            // Создаем запись о посещении
             var gymVisit = new GymVisit
             {
                 UserId = userId,
@@ -94,7 +88,6 @@ namespace AdminApp.Services
             try
             {
                 await _gymVisits.InsertOneAsync(gymVisit);
-                // Обновляем пользователя – ставим флаг "находится в зале"
                 var update = Builders<User>.Update.Set(u => u.IsInGym, true);
                 await _users.UpdateOneAsync(u => u.Id == userId, update);
                 return (true, $"Пользователь зачекинен. Номер шкафчика: {lockerNumber.Value}");
@@ -114,13 +107,11 @@ namespace AdminApp.Services
                 return (false, "Пользователь не числится в зале.");
             }
 
-            // Обновляем запись: записываем время выхода
             var updateVisit = Builders<GymVisit>.Update
                 .Set(gv => gv.CheckOutTime, DateTime.UtcNow)
                 .Set(gv => gv.UpdatedAt, DateTime.UtcNow);
             var resultVisit = await _gymVisits.UpdateOneAsync(gv => gv.Id == activeVisit.Id, updateVisit);
 
-            // Обновляем пользователя: сбрасываем флаг и увеличиваем счётчик посещений
             var user = await _users.Find(u => u.Id == userId).FirstOrDefaultAsync();
             if (user == null)
             {

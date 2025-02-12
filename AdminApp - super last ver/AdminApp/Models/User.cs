@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace AdminApp.Models
 {
-    [BsonIgnoreExtraElements]  // Игнорируем поля (например, subscription, balance), которых нет в модели
+    [BsonIgnoreExtraElements]  // Игнорируем поля (например, subscription), которых нет в модели
     public class User
     {
         [BsonId]
@@ -54,6 +54,10 @@ namespace AdminApp.Models
 
         [BsonElement("dateOfBirth")]
         public DateTime DateOfBirth { get; set; }
+
+        // Новое поле для хранения баланса пользователя
+        [BsonElement("balance")]
+        public double Balance { get; set; } = 0;
 
         // В админ-приложении, например, храним только план и дату завершения,
         // без детального объекта "subscription"

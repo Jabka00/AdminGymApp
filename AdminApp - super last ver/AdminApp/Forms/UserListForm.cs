@@ -21,6 +21,19 @@ namespace AdminApp.Forms
         private Button btnSearch;
         private BindingSource bindingSource;
 
+        // Панель и элементы управления для постраничной навигации
+        private Panel paginationPanel;
+        private Button btnPrev;
+        private Button btnNext;
+        private Label lblPageInfo;
+        private TextBox txtPage;
+        private Button btnGo;
+
+        // Переменные для пагинации
+        private int _currentPage = 1;
+        private int _pageSize = 10;
+        private int _totalPages = 1;
+
         // Хранит полный список пользователей для сортировки и фильтрации
         private List<User> _allUsers = new List<User>();
         private string? _lastSortedColumn;
@@ -40,25 +53,26 @@ namespace AdminApp.Forms
             // Основной вид формы
             Text = "User List";
             Size = new Size(900, 600);
-            FormBorderStyle = FormBorderStyle.FixedDialog;
-            MaximizeBox = false;
+            // Разрешаем изменять размер окна и максимизацию
+            FormBorderStyle = FormBorderStyle.Sizable;
+            MaximizeBox = true;
             StartPosition = FormStartPosition.CenterParent;
-            BackColor = Color.White; // Фон формы – белый (без изменений в цветовой схеме)
+            BackColor = Color.White;
 
             // Инициализация BindingSource
             bindingSource = new BindingSource();
 
-            // Верхняя панель для элементов управления
+            // Верхняя панель для элементов управления (поиск, обновление)
             topPanel = new Panel
             {
                 Dock = DockStyle.Top,
                 Height = 60,
                 Padding = new Padding(10),
-                BackColor = Color.White, // тот же цвет фона
+                BackColor = Color.White,
                 BorderStyle = BorderStyle.FixedSingle
             };
 
-            // Кнопка "Обновить" с улучшенным внешним видом
+            // Кнопка "Обновить"
             btnRefresh = new Button
             {
                 Text = "Обновить",
@@ -66,14 +80,14 @@ namespace AdminApp.Forms
                 Height = 30,
                 FlatStyle = FlatStyle.Flat,
                 Font = new Font("Segoe UI", 9, FontStyle.Regular),
-                BackColor = Color.LightGray, // можно оставить как есть, или задать другой оттенок
+                BackColor = Color.LightGray,
                 Left = 10,
                 Top = 15
             };
             btnRefresh.FlatAppearance.BorderSize = 0;
-            btnRefresh.Click += async (s, e) => await LoadUsersAsync();
+            btnRefresh.Click += async (s, e) => { _currentPage = 1; await LoadUsersAsync(); };
 
-            // Метка для поиска
+            // Метка для поиска по username
             lblSearch = new Label
             {
                 Text = "Username:",
@@ -93,7 +107,7 @@ namespace AdminApp.Forms
                 Top = 15
             };
 
-            // Кнопка "Поиск" с улучшенным внешним видом
+            // Кнопка "Поиск"
             btnSearch = new Button
             {
                 Text = "Поиск",
@@ -106,7 +120,7 @@ namespace AdminApp.Forms
                 Top = 15
             };
             btnSearch.FlatAppearance.BorderSize = 0;
-            btnSearch.Click += (s, e) => ApplySearchFilter();
+            btnSearch.Click += (s, e) => { _currentPage = 1; ApplySearchFilter(); };
 
             // Добавляем элементы на верхнюю панель
             topPanel.Controls.Add(btnRefresh);
@@ -114,7 +128,7 @@ namespace AdminApp.Forms
             topPanel.Controls.Add(txtSearch);
             topPanel.Controls.Add(btnSearch);
 
-            // Инициализация DataGridView с улучшенным оформлением
+            // Инициализация DataGridView
             dgvUsers = new DataGridView
             {
                 Dock = DockStyle.Fill,
@@ -130,7 +144,6 @@ namespace AdminApp.Forms
                 Font = new Font("Segoe UI", 9, FontStyle.Regular)
             };
 
-            // Стилизация заголовков столбцов
             dgvUsers.ColumnHeadersDefaultCellStyle = new DataGridViewCellStyle
             {
                 BackColor = Color.White,
@@ -176,13 +189,101 @@ namespace AdminApp.Forms
                 ForeColor = Color.Black
             };
 
-            // Добавляем элементы на форму
+            // Панель для постраничной навигации
+            paginationPanel = new Panel
+            {
+                Dock = DockStyle.Bottom,
+                Height = 40,
+                Padding = new Padding(10),
+                BackColor = Color.White,
+                BorderStyle = BorderStyle.FixedSingle
+            };
+
+            btnPrev = new Button
+            {
+                Text = "Previous",
+                Width = 80,
+                Height = 30,
+                Left = 10,
+                Top = 5
+            };
+            btnPrev.Click += async (s, e) =>
+            {
+                if (_currentPage > 1)
+                {
+                    _currentPage--;
+                    await LoadUsersAsync();
+                }
+            };
+
+            btnNext = new Button
+            {
+                Text = "Next",
+                Width = 80,
+                Height = 30,
+                Left = btnPrev.Right + 10,
+                Top = 5
+            };
+            btnNext.Click += async (s, e) =>
+            {
+                if (_currentPage < _totalPages)
+                {
+                    _currentPage++;
+                    await LoadUsersAsync();
+                }
+            };
+
+            lblPageInfo = new Label
+            {
+                AutoSize = true,
+                Font = new Font("Segoe UI", 9, FontStyle.Regular),
+                Left = btnNext.Right + 10,
+                Top = 10,
+                Text = "Page 0 of 0 (Total: 0)"
+            };
+
+            txtPage = new TextBox
+            {
+                Width = 40,
+                Height = 25,
+                Left = lblPageInfo.Right + 20,
+                Top = 8
+            };
+
+            btnGo = new Button
+            {
+                Text = "Go",
+                Width = 40,
+                Height = 30,
+                Left = txtPage.Right + 5,
+                Top = 5
+            };
+            btnGo.Click += async (s, e) =>
+            {
+                if (int.TryParse(txtPage.Text.Trim(), out int pageNum))
+                {
+                    if (pageNum >= 1 && pageNum <= _totalPages)
+                    {
+                        _currentPage = pageNum;
+                        await LoadUsersAsync();
+                    }
+                }
+            };
+
+            paginationPanel.Controls.Add(btnPrev);
+            paginationPanel.Controls.Add(btnNext);
+            paginationPanel.Controls.Add(lblPageInfo);
+            paginationPanel.Controls.Add(txtPage);
+            paginationPanel.Controls.Add(btnGo);
+
+            // Добавляем элементы на форму (порядок: DataGridView, панель навигации, верхняя панель, индикатор загрузки)
             Controls.Add(dgvUsers);
+            Controls.Add(paginationPanel);
             Controls.Add(topPanel);
             Controls.Add(lblLoading);
         }
 
-        // Асинхронный метод загрузки пользователей
+        // Асинхронно загружает пользователей, обновляет _allUsers и вызывает фильтрацию с пагинацией
         public async Task LoadUsersAsync()
         {
             try
@@ -208,7 +309,7 @@ namespace AdminApp.Forms
             }
         }
 
-        // Применяет фильтр поиска по username и обновляет источник данных BindingSource
+        // Применяет фильтр поиска, вычисляет общее число страниц и отображает данные текущей страницы
         private void ApplySearchFilter()
         {
             string filter = txtSearch?.Text.Trim() ?? string.Empty;
@@ -218,7 +319,20 @@ namespace AdminApp.Forms
                                        u.Username.IndexOf(filter, StringComparison.OrdinalIgnoreCase) >= 0)
                            .ToList();
 
-            bindingSource.DataSource = filtered;
+            int totalUsers = filtered.Count;
+            _totalPages = (int)Math.Ceiling(totalUsers / (double)_pageSize);
+            if (_totalPages == 0)
+                _totalPages = 1;
+            if (_currentPage > _totalPages)
+                _currentPage = _totalPages;
+
+            // Выбираем данные для текущей страницы
+            var pageData = filtered.Skip((_currentPage - 1) * _pageSize).Take(_pageSize).ToList();
+            bindingSource.DataSource = pageData;
+
+            lblPageInfo.Text = $"Page {_currentPage} of {_totalPages} (Total: {totalUsers})";
+            btnPrev.Enabled = _currentPage > 1;
+            btnNext.Enabled = _currentPage < _totalPages;
         }
 
         // Обработка редактирования пользователя через контекстное меню
@@ -250,7 +364,7 @@ namespace AdminApp.Forms
             }
         }
 
-        // Обработчик сортировки при клике по заголовку столбца
+        // Обработчик сортировки при клике по заголовку столбца (с использованием Reflection)
         private void DgvUsers_ColumnHeaderMouseClick(object? sender, DataGridViewCellMouseEventArgs e)
         {
             if (dgvUsers.Columns.Count <= e.ColumnIndex)
@@ -261,7 +375,6 @@ namespace AdminApp.Forms
             if (string.IsNullOrEmpty(propertyName))
                 return;
 
-            // Определяем направление сортировки
             if (_lastSortedColumn == propertyName)
                 _sortAscending = !_sortAscending;
             else
@@ -270,7 +383,6 @@ namespace AdminApp.Forms
                 _sortAscending = true;
             }
 
-            // Сортировка с использованием Reflection
             var propInfo = typeof(User).GetProperty(propertyName);
             if (propInfo == null)
                 return;

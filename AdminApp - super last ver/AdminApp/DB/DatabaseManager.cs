@@ -26,13 +26,12 @@ namespace AdminApp.DB
         {
             try
             {
-                // Пробуем получить список коллекций, чтобы проверить подключение
                 await _database.ListCollectionNamesAsync();
-                Console.WriteLine("Успешно подключено к MongoDB!");
+                Console.WriteLine("Connected to MongoDB successfully!");
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Ошибка подключения к MongoDB: {ex.Message}");
+                Console.WriteLine($"Error connecting to MongoDB: {ex.Message}");
                 throw;
             }
         }
