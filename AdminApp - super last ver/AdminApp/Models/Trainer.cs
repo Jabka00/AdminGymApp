@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace AdminApp.Models
 {
-    [BsonIgnoreExtraElements] // Игнорируем лишние поля, если они есть
+    [BsonIgnoreExtraElements] 
     public class Trainer
     {
         [BsonId]
@@ -22,14 +22,12 @@ namespace AdminApp.Models
         public List<DayOfWeek> WorkingDays { get; set; } = new List<DayOfWeek>();
 
         /// <summary>
-        /// Цена за одну индивидуальную тренировку
         /// </summary>
         [BsonElement("trainingPrice")]
         [Required]
         public double TrainingPrice { get; set; }
 
         /// <summary>
-        /// Баланс тренера (например, сколько денег ему уже начислено).
         /// </summary>
         [BsonElement("balance")]
         [Required]

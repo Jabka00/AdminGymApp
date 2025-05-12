@@ -11,7 +11,6 @@ namespace AdminApp.Forms
 {
     public class StatisticsForm : Form
     {
-        // Required services.
         private readonly UserService _userService;
         private readonly PurchaseService _purchaseService;
         private readonly GymVisitService _gymVisitService;
@@ -20,11 +19,9 @@ namespace AdminApp.Forms
         private readonly TrainerService _trainerService;
         private readonly ProductService _productService;
 
-        // UI Controls.
         private ComboBox cmbPeriod;
         private Button btnLoad;
         
-        // Labels for the basic six statistics.
         private Label lblTotalMoneySpent;
         private Label lblTotalUsers;
         private Label lblNewUsers;
@@ -32,7 +29,6 @@ namespace AdminApp.Forms
         private Label lblTrainingsHeld;
         private Label lblGymVisits;
         
-        // Additional statistics.
         private Label lblPurchaseRevenue;
         private Label lblSubscriptionRevenue;
         private Label lblTrainingRevenue;
@@ -76,7 +72,6 @@ namespace AdminApp.Forms
             this.StartPosition = FormStartPosition.CenterParent;
             this.AutoScroll = true;
 
-            // Period selection controls.
             Label lblSelectPeriod = new Label
             {
                 Text = "Select Period:",
@@ -104,9 +99,7 @@ namespace AdminApp.Forms
             };
             btnLoad.Click += async (s, e) => await LoadStatisticsAsync();
 
-            // Create statistic labels.
-            // We'll use a vertical spacing of 30 pixels starting at y = 60.
-            int baseTop = 60;
+          int baseTop = 60;
             int spacing = 30;
             lblTotalMoneySpent = CreateStatLabel("Total Money Spent (Overall Revenue): $0.00", baseTop + spacing * 0);
             lblTotalUsers = CreateStatLabel("Total Users: 0", baseTop + spacing * 1);
@@ -130,7 +123,6 @@ namespace AdminApp.Forms
             lblActiveSubscriptionsCount = CreateStatLabel("Active Subscriptions: 0", baseTop + spacing * 19);
             lblPercentageActiveSubscriptions = CreateStatLabel("Percentage with Active Subscriptions: 0%", baseTop + spacing * 20);
 
-            // Add controls.
             this.Controls.Add(lblSelectPeriod);
             this.Controls.Add(cmbPeriod);
             this.Controls.Add(btnLoad);
@@ -171,7 +163,6 @@ namespace AdminApp.Forms
 
         private async Task LoadStatisticsAsync()
         {
-            // Determine the start date based on the selected period.
             DateTime? periodStart = null;
             string period = cmbPeriod.SelectedItem.ToString();
             switch (period)
@@ -190,7 +181,6 @@ namespace AdminApp.Forms
                     break;
             }
 
-            // --- PURCHASES ---
             List<Purchase> allPurchases = await _purchaseService.GetAllPurchasesAsync();
             List<Purchase> purchasesInPeriod = periodStart.HasValue
                 ? allPurchases.Where(p => p.PurchaseDate >= periodStart.Value).ToList()
@@ -199,7 +189,6 @@ namespace AdminApp.Forms
             int numPurchases = purchasesInPeriod.Count;
             double avgPurchaseAmount = numPurchases > 0 ? purchaseRevenue / numPurchases : 0;
 
-            // --- SUBSCRIPTIONS ---
             List<Subscription> allSubscriptions = await _subscriptionService.GetAllSubscriptionsAsync();
             List<Subscription> subscriptionsInPeriod = periodStart.HasValue
                 ? allSubscriptions.Where(s => s.StartDate >= periodStart.Value).ToList()
@@ -211,7 +200,6 @@ namespace AdminApp.Forms
                 : 0;
             int activeSubscriptionsCount = allSubscriptions.Count(s => s.EndDate >= DateTime.UtcNow);
 
-            // --- TRAININGS ---
             List<Training> allTrainings = await _trainingService.GetAllTrainingsAsync();
             List<Training> trainingsInPeriod = periodStart.HasValue
                 ? allTrainings.Where(t => t.Schedule >= periodStart.Value).ToList()
@@ -246,10 +234,8 @@ namespace AdminApp.Forms
                 : 0;
             int trainingsHeld = trainingsInPeriod.Count;
 
-            // --- OVERALL REVENUE ---
             double overallRevenue = purchaseRevenue + subscriptionRevenue + trainingRevenue;
 
-            // --- USERS ---
             List<Models.User> allUsers = await _userService.GetAllUsersAsync();
             int totalUsers = allUsers.Count;
             int newUsers = periodStart.HasValue
@@ -257,7 +243,6 @@ namespace AdminApp.Forms
                 : 0;
             double totalUserBalance = allUsers.Sum(u => u.Balance);
 
-            // --- GYM VISITS ---
             List<GymVisit> allGymVisits = await _gymVisitService.GetAllGymVisitsAsync();
             List<GymVisit> gymVisitsInPeriod = periodStart.HasValue
                 ? allGymVisits.Where(v => v.CheckInTime >= periodStart.Value).ToList()
@@ -269,7 +254,6 @@ namespace AdminApp.Forms
                 .ToList();
             double avgGymVisitDuration = durations.Count > 0 ? durations.Average() : 0;
 
-            // Most Active User (by gym visits)
             string mostActiveUserText = "N/A";
             if (gymVisitsInPeriod.Any())
             {
@@ -286,20 +270,16 @@ namespace AdminApp.Forms
                 }
             }
 
-            // --- PRODUCTS ---
             List<Product> allProducts = await _productService.GetAllProductsAsync();
             double productInventoryValue = allProducts.Sum(p => p.Price * p.Quantity);
 
-            // --- TRAINER COUNT ---
             List<Trainer> allTrainers = await _trainerService.GetAllTrainersAsync();
             int totalTrainers = allTrainers.Count;
 
-            // --- ACTIVE SUBSCRIPTIONS ---
             double percentageActiveSubscriptions = totalUsers > 0
                 ? (activeSubscriptionsCount / (double)totalUsers) * 100
                 : 0;
 
-            // --- UPDATE UI LABELS ---
             lblTotalMoneySpent.Text = $"Total Money Spent (Overall Revenue): ${overallRevenue:N2}";
             lblTotalUsers.Text = $"Total Users: {totalUsers}";
             lblNewUsers.Text = $"New Users: {newUsers}";

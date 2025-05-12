@@ -55,29 +55,23 @@ namespace AdminApp.Forms
                 tableLayout.Controls.Add(control);
             }
 
-            // Title
             txtTitle = new TextBox() { Anchor = AnchorStyles.Left | AnchorStyles.Right };
             AddRow("Title:", txtTitle);
 
-            // Description
             txtDescription = new TextBox() { Anchor = AnchorStyles.Left | AnchorStyles.Right, Multiline = true, Height = 60 };
             AddRow("Description:", txtDescription);
 
-            // Type
             cmbType = new ComboBox() { Anchor = AnchorStyles.Left | AnchorStyles.Right, DropDownStyle = ComboBoxStyle.DropDownList };
             cmbType.Items.AddRange(new string[] { "group", "personal" });
             cmbType.SelectedIndexChanged += (s, e) => UpdateGroupPriceVisibility();
             AddRow("Type:", cmbType);
 
-            // Trainer
             cmbTrainer = new ComboBox() { Anchor = AnchorStyles.Left | AnchorStyles.Right, DropDownStyle = ComboBoxStyle.DropDownList };
             AddRow("Trainer:", cmbTrainer);
 
-            // Schedule
             dtpSchedule = new DateTimePicker() { Anchor = AnchorStyles.Left | AnchorStyles.Right, Format = DateTimePickerFormat.Custom, CustomFormat = "dd.MM.yyyy HH:mm" };
             AddRow("Schedule (date/time):", dtpSchedule);
 
-            // Duration
             var durationPanel = new FlowLayoutPanel() { FlowDirection = FlowDirection.LeftToRight, Dock = DockStyle.Fill };
             nudDurationHours = new NumericUpDown() { Minimum = 0, Maximum = 24, Width = 60 };
             nudDurationMinutes = new NumericUpDown() { Minimum = 0, Maximum = 59, Width = 60 };
@@ -87,11 +81,9 @@ namespace AdminApp.Forms
             durationPanel.Controls.Add(nudDurationMinutes);
             AddRow("Duration:", durationPanel);
 
-            // Capacity
             nudCapacity = new NumericUpDown() { Minimum = 1, Maximum = 100, Width = 100 };
             AddRow("Capacity:", nudCapacity);
 
-            // Group Price
             nudGroupPrice = new NumericUpDown()
             {
                 Minimum = 0,
@@ -102,7 +94,6 @@ namespace AdminApp.Forms
             };
             AddRow("Group Price:", nudGroupPrice);
 
-            // Save/Cancel
             btnSave = new Button() { Text = "Save", Anchor = AnchorStyles.None, Width = 100 };
             btnSave.Click += async (s, e) => await SaveTraining();
 

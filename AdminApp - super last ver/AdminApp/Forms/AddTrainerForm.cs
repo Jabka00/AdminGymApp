@@ -13,7 +13,7 @@ namespace AdminApp.Forms
         private readonly TrainerService _trainerService;
 
         private TextBox? txtName;
-        private NumericUpDown? nudTrainingPrice; // Price field
+        private NumericUpDown? nudTrainingPrice; 
         private CheckedListBox? clbWorkingDays;
         private Button? btnSave, btnCancel;
 
@@ -50,22 +50,19 @@ namespace AdminApp.Forms
                 tableLayout.Controls.Add(control);
             }
 
-            // Trainer Name
             txtName = new TextBox() { Anchor = AnchorStyles.Left | AnchorStyles.Right };
             AddRow("Trainer Name:", txtName);
 
-            // Training Price
             nudTrainingPrice = new NumericUpDown()
             {
                 Anchor = AnchorStyles.Left | AnchorStyles.Right,
                 Minimum = 0,
                 Maximum = 999999,
                 DecimalPlaces = 2,
-                Value = 100 // default
+                Value = 100 
             };
             AddRow("Training Price:", nudTrainingPrice);
 
-            // Working Days
             clbWorkingDays = new CheckedListBox()
             {
                 Anchor = AnchorStyles.Left | AnchorStyles.Right,
@@ -74,7 +71,6 @@ namespace AdminApp.Forms
             clbWorkingDays.Items.AddRange(Enum.GetNames(typeof(DayOfWeek)));
             AddRow("Working Days:", clbWorkingDays);
 
-            // Buttons
             btnSave = new Button() { Text = "Save", Anchor = AnchorStyles.None, Width = 100 };
             btnSave.Click += async (s, e) => await SaveTrainer();
 
@@ -106,7 +102,6 @@ namespace AdminApp.Forms
                 return;
             }
 
-            // Create the trainer
             var newTrainer = new Trainer
             {
                 Name = txtName.Text.Trim(),

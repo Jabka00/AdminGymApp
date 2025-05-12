@@ -63,7 +63,6 @@ namespace AdminApp.Forms
                 Visible = false
             };
 
-            // Контекстное меню для редактирования и удаления тренера
             var contextMenu = new ContextMenuStrip();
             var editItem = new ToolStripMenuItem("Редактировать");
             editItem.Click += EditTrainer;
@@ -80,7 +79,6 @@ namespace AdminApp.Forms
             this.Controls.Add(lblLoading);
         }
 
-        // Метод для загрузки тренеров
         public async void LoadTrainers()
         {
             if (dgvTrainers == null || btnRefresh == null || lblLoading == null)
@@ -162,7 +160,6 @@ namespace AdminApp.Forms
             }
         }
 
-        // Позволяет выделять строку по клику правой кнопкой мыши
         private void DgvTrainers_MouseDown(object? sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Right)

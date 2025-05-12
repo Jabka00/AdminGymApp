@@ -15,7 +15,6 @@ namespace AdminApp.Models
         [BsonRepresentation(BsonType.ObjectId)]
         public string UserId { get; set; }
         
-        // Для выбора шкафа по полу (male/female)
         [BsonElement("gender")]
         public string Gender { get; set; }
         

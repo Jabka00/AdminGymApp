@@ -39,8 +39,6 @@ namespace AdminApp.Models
         public List<string>? EnrolledUsers { get; set; }
 
         /// <summary>
-        /// Цена участия в групповой тренировке 
-        /// (для персональной можно хранить null или 0)
         /// </summary>
         [BsonElement("groupPrice")]
         public double? GroupPrice { get; set; }

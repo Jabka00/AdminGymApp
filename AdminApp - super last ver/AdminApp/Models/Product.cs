@@ -23,7 +23,6 @@ namespace AdminApp.Models
         [BsonElement("quantity")]
         public int Quantity { get; set; }
         
-        // Новое поле для хранения категории товара (например: "услуга", "напиток", "батончик")
         [BsonElement("category")]
         public string Category { get; set; }
     

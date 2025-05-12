@@ -120,7 +120,6 @@ namespace AdminApp.Forms
 
             if (_subscription == null)
             {
-                // Create a new subscription
                 var newSubscription = new Subscription
                 {
                     UserId = _userId,
@@ -145,7 +144,6 @@ namespace AdminApp.Forms
             }
             else
             {
-                // Update existing subscription
                 _subscription.DurationMonths = duration;
                 _subscription.PricePerMonth = pricePerMonth;
                 _subscription.TotalPrice = totalPrice;

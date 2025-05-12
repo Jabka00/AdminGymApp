@@ -13,14 +13,12 @@ namespace AdminApp.Forms
         private TextBox txtDescription;
         private TextBox txtPrice;
         private TextBox txtQuantity;
-        // Вместо текстового поля для категории используем два ComboBox:
         private ComboBox cmbMainCategory;
         private ComboBox cmbSubCategory;
         private Button btnSave;
         private readonly ProductService _productService;
         private readonly Product? _product;
 
-        // Словарь с основными категориями и списками подкатегорий
         private readonly Dictionary<string, List<string>> categories = new Dictionary<string, List<string>>
         {
             {
@@ -102,7 +100,6 @@ namespace AdminApp.Forms
                 "Фармакология", new List<string>
                 {
                     "Тренбалон"
-                    // Можно добавить и другие подкатегории фармакологии по необходимости
                 }
             }
         };
@@ -123,23 +120,18 @@ namespace AdminApp.Forms
             this.Text = _product == null ? "Add Product" : "Edit Product";
             this.Size = new System.Drawing.Size(400, 450);
 
-            // Поле "Name"
             Label lblName = new Label() { Text = "Name:", Left = 20, Top = 20 };
             txtName = new TextBox() { Left = 120, Top = 20, Width = 200 };
 
-            // Поле "Description"
             Label lblDescription = new Label() { Text = "Description:", Left = 20, Top = 60 };
             txtDescription = new TextBox() { Left = 120, Top = 60, Width = 200 };
 
-            // Поле "Price"
             Label lblPrice = new Label() { Text = "Price:", Left = 20, Top = 100 };
             txtPrice = new TextBox() { Left = 120, Top = 100, Width = 200 };
 
-            // Поле "Quantity"
             Label lblQuantity = new Label() { Text = "Quantity:", Left = 20, Top = 140 };
             txtQuantity = new TextBox() { Left = 120, Top = 140, Width = 200 };
 
-            // Создаём ComboBox для подкатегории до назначения обработчика основного ComboBox
             Label lblSubCategory = new Label() { Text = "Subcategory:", Left = 20, Top = 220 };
             cmbSubCategory = new ComboBox()
             {
@@ -149,7 +141,6 @@ namespace AdminApp.Forms
                 DropDownStyle = ComboBoxStyle.DropDownList
             };
 
-            // Создаём ComboBox для основной категории
             Label lblMainCategory = new Label() { Text = "Main Category:", Left = 20, Top = 180 };
             cmbMainCategory = new ComboBox()
             {
@@ -159,21 +150,17 @@ namespace AdminApp.Forms
                 DropDownStyle = ComboBoxStyle.DropDownList
             };
 
-            // Заполняем список основных категорий и назначаем обработчик события
             cmbMainCategory.Items.AddRange(categories.Keys.ToArray());
             cmbMainCategory.SelectedIndexChanged += CmbMainCategory_SelectedIndexChanged;
 
-            // Устанавливаем SelectedIndex после того, как оба ComboBox созданы
             if (cmbMainCategory.Items.Count > 0)
             {
                 cmbMainCategory.SelectedIndex = 0;
             }
 
-            // Кнопка "Save"
             btnSave = new Button() { Text = "Save", Left = 120, Top = 270, Width = 100 };
             btnSave.Click += BtnSave_Click;
 
-            // Добавляем элементы управления на форму
             this.Controls.Add(lblName);
             this.Controls.Add(txtName);
             this.Controls.Add(lblDescription);
@@ -188,8 +175,6 @@ namespace AdminApp.Forms
             this.Controls.Add(cmbSubCategory);
             this.Controls.Add(btnSave);
         }
-
-        // Обновляем список подкатегорий при изменении основной категории
         private void CmbMainCategory_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (cmbMainCategory.SelectedItem == null)
@@ -216,11 +201,9 @@ namespace AdminApp.Forms
                 txtPrice.Text = _product.Price.ToString();
                 txtQuantity.Text = _product.Quantity.ToString();
 
-                // Если в базе сохранено значение подкатегории, определяем основную категорию
                 if (!string.IsNullOrWhiteSpace(_product.Category))
                 {
                     string savedSubCategory = _product.Category;
-                    // Ищем основную категорию, в которой содержится эта подкатегория
                     string foundMainCategory = categories
                         .Where(kvp => kvp.Value.Contains(savedSubCategory))
                         .Select(kvp => kvp.Key)
@@ -229,9 +212,7 @@ namespace AdminApp.Forms
                     if (!string.IsNullOrEmpty(foundMainCategory))
                     {
                         cmbMainCategory.SelectedItem = foundMainCategory;
-                        // После выбора основной категории список подкатегорий обновится,
-                        // поэтому выбираем нужную подкатегорию
-                        if (cmbSubCategory.Items.Contains(savedSubCategory))
+                           if (cmbSubCategory.Items.Contains(savedSubCategory))
                         {
                             cmbSubCategory.SelectedItem = savedSubCategory;
                         }
@@ -242,7 +223,6 @@ namespace AdminApp.Forms
 
         private async void BtnSave_Click(object sender, EventArgs e)
         {
-            // Проверяем заполненность необходимых полей
             if (string.IsNullOrWhiteSpace(txtName.Text) ||
                 !double.TryParse(txtPrice.Text, out double price) ||
                 !int.TryParse(txtQuantity.Text, out int quantity) ||
@@ -252,7 +232,6 @@ namespace AdminApp.Forms
                 return;
             }
 
-            // Сохраняем только выбранную подкатегорию
             string category = cmbSubCategory.SelectedItem.ToString();
 
             if (_product == null)

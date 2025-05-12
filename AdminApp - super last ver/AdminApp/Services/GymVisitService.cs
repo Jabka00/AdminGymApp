@@ -19,7 +19,6 @@ namespace AdminApp.Services
             _users = dbManager.GetCollection<User>("users");
         }
 
-        // Получить активную (без check-out) запись для пользователя
         public async Task<GymVisit?> GetActiveVisitByUserIdAsync(string userId)
         {
             var filter = Builders<GymVisit>.Filter.Eq(gv => gv.UserId, userId) &
@@ -27,7 +26,6 @@ namespace AdminApp.Services
             return await _gymVisits.Find(filter).FirstOrDefaultAsync();
         }
 
-        // Функция регистрации входа (CheckIn)
         public async Task<(bool success, string message)> CheckInUserAsync(string userId)
         {
             var activeVisit = await GetActiveVisitByUserIdAsync(userId);
@@ -98,7 +96,6 @@ namespace AdminApp.Services
             }
         }
 
-        // Функция регистрации выхода (CheckOut)
         public async Task<(bool success, string message)> CheckOutUserAsync(string userId)
         {
             var activeVisit = await GetActiveVisitByUserIdAsync(userId);
@@ -138,7 +135,6 @@ namespace AdminApp.Services
             return await _gymVisits.Find(_ => true).ToListAsync();
         }
 
-        // Получить историю посещений для пользователя
         public async Task<List<GymVisit>> GetVisitHistoryAsync(string userId)
         {
             var filter = Builders<GymVisit>.Filter.Eq(gv => gv.UserId, userId);

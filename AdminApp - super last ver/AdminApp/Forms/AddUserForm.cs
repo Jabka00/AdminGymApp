@@ -55,55 +55,43 @@ namespace AdminApp.Forms
                 tableLayout.Controls.Add(control);
             }
 
-            // Username
             txtUsername = new TextBox() { Anchor = AnchorStyles.Left | AnchorStyles.Right };
             AddRow("Username:", txtUsername);
 
-            // Email
             txtEmail = new TextBox() { Anchor = AnchorStyles.Left | AnchorStyles.Right };
             AddRow("Email:", txtEmail);
 
-            // Password
             txtPassword = new TextBox() { Anchor = AnchorStyles.Left | AnchorStyles.Right, PasswordChar = '*' };
             AddRow("Password:", txtPassword);
 
-            // First Name
             txtFirstName = new TextBox() { Anchor = AnchorStyles.Left | AnchorStyles.Right };
             AddRow("First Name:", txtFirstName);
 
-            // Middle Name
             txtMiddleName = new TextBox() { Anchor = AnchorStyles.Left | AnchorStyles.Right };
             AddRow("Middle Name:", txtMiddleName);
 
-            // Last Name
             txtLastName = new TextBox() { Anchor = AnchorStyles.Left | AnchorStyles.Right };
             AddRow("Last Name:", txtLastName);
 
-            // Date of Birth
             dtpDateOfBirth = new DateTimePicker() { Anchor = AnchorStyles.Left | AnchorStyles.Right, Format = DateTimePickerFormat.Short };
             AddRow("Date of Birth:", dtpDateOfBirth);
 
-            // Gender
             cmbGender = new ComboBox() { Anchor = AnchorStyles.Left | AnchorStyles.Right, DropDownStyle = ComboBoxStyle.DropDownList };
             cmbGender.Items.AddRange(new string[] { "Male", "Female", "Other" });
             cmbGender.SelectedIndex = 0;
             AddRow("Gender:", cmbGender);
 
-            // Phone
             txtPhone = new TextBox() { Anchor = AnchorStyles.Left | AnchorStyles.Right };
             AddRow("Phone:", txtPhone);
 
-            // Address
             txtAddress = new TextBox() { Anchor = AnchorStyles.Left | AnchorStyles.Right };
             AddRow("Address:", txtAddress);
 
-            // Role
             cmbRole = new ComboBox() { Anchor = AnchorStyles.Left | AnchorStyles.Right, DropDownStyle = ComboBoxStyle.DropDownList };
             cmbRole.Items.AddRange(new string[] { "client", "admin" });
             cmbRole.SelectedIndex = 0;
             AddRow("Role:", cmbRole);
 
-            // Save/Cancel
             btnSave = new Button() { Text = "Save", Anchor = AnchorStyles.None, Width = 100 };
             btnSave.Click += async (s, e) => await SaveUser();
 
@@ -125,7 +113,6 @@ namespace AdminApp.Forms
                 cmbGender == null || txtPhone == null || cmbRole == null)
                 return;
 
-            // Validation of required fields
             if (string.IsNullOrWhiteSpace(txtUsername.Text) ||
                 string.IsNullOrWhiteSpace(txtEmail.Text) ||
                 string.IsNullOrWhiteSpace(txtPassword.Text) ||
@@ -137,7 +124,6 @@ namespace AdminApp.Forms
                 return;
             }
 
-            // Validate Email
             if (!IsValidEmail(txtEmail.Text))
             {
                 MessageBox.Show("Invalid email format.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);

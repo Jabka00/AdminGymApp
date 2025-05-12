@@ -46,7 +46,6 @@ namespace AdminApp.Forms
             btnRefresh.Click += async (s, e) => await LoadSubscriptionAsync();
             this.Controls.Add(btnRefresh);
 
-            // Existing subscription group
             groupExistingSubscription = new GroupBox() { Text = "Existing Subscription", Dock = DockStyle.Top, Height = 150 };
             lblExistingStart = new Label() { Text = "Start:", AutoSize = true };
             lblExistingEnd = new Label() { Text = "End:", AutoSize = true };
@@ -74,7 +73,6 @@ namespace AdminApp.Forms
             groupExistingSubscription.Visible = false;
             this.Controls.Add(groupExistingSubscription);
 
-            // New subscription group
             groupNewSubscription = new GroupBox() { Text = "Buy New Subscription", Dock = DockStyle.Fill };
             nudNewDuration = new NumericUpDown() { Minimum = 1, Maximum = 24, Value = 1 };
             nudNewPrice = new NumericUpDown() { Minimum = 0, Maximum = 10000, DecimalPlaces = 2, Value = 900 };

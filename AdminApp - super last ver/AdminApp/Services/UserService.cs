@@ -36,7 +36,6 @@ namespace AdminApp.Services
             }
             catch
             {
-                // Добавьте дополнительную обработку ошибок при необходимости
                 return false;
             }
         }
@@ -51,7 +50,6 @@ namespace AdminApp.Services
             }
             catch
             {
-                // Добавьте дополнительную обработку ошибок при необходимости
                 return false;
             }
         }
@@ -65,7 +63,6 @@ namespace AdminApp.Services
             }
             catch
             {
-                // Добавьте дополнительную обработку ошибок при необходимости
                 return false;
             }
         }

@@ -14,13 +14,10 @@ namespace AdminApp.Forms
         private readonly UserService _userService;
         private User _user;
 
-        // Controls for editing user data
         private TextBox? txtUsername, txtEmail, txtPassword, txtFirstName, txtMiddleName, txtLastName, txtPhone, txtAddress;
         private ComboBox? cmbGender, cmbRole;
         private DateTimePicker? dtpDateOfBirth;
-        // Button to manage subscription
         private Button? btnManageSubscription;
-        // Save/Cancel
         private Button? btnSave, btnCancel;
 
         public EditUserForm(User user, UserService userService)
@@ -57,55 +54,43 @@ namespace AdminApp.Forms
                 tableLayout.Controls.Add(control);
             }
 
-            // Username (read-only)
             txtUsername = new TextBox() { Anchor = AnchorStyles.Left | AnchorStyles.Right, ReadOnly = true };
             AddRow("Username:", txtUsername);
 
-            // Email
             txtEmail = new TextBox() { Anchor = AnchorStyles.Left | AnchorStyles.Right };
             AddRow("Email:", txtEmail);
 
-            // Password
             txtPassword = new TextBox() { Anchor = AnchorStyles.Left | AnchorStyles.Right, PasswordChar = '*' };
             AddRow("Password:", txtPassword);
 
-            // First Name
             txtFirstName = new TextBox() { Anchor = AnchorStyles.Left | AnchorStyles.Right };
             AddRow("First Name:", txtFirstName);
 
-            // Middle Name
             txtMiddleName = new TextBox() { Anchor = AnchorStyles.Left | AnchorStyles.Right };
             AddRow("Middle Name:", txtMiddleName);
 
-            // Last Name
             txtLastName = new TextBox() { Anchor = AnchorStyles.Left | AnchorStyles.Right };
             AddRow("Last Name:", txtLastName);
 
-            // Date of Birth
             dtpDateOfBirth = new DateTimePicker() { Anchor = AnchorStyles.Left | AnchorStyles.Right, Format = DateTimePickerFormat.Short };
             AddRow("Date of Birth:", dtpDateOfBirth);
 
-            // Gender
             cmbGender = new ComboBox() { Anchor = AnchorStyles.Left | AnchorStyles.Right, DropDownStyle = ComboBoxStyle.DropDownList };
             cmbGender.Items.AddRange(new string[] { "Male", "Female", "Other" });
             cmbGender.SelectedIndex = 0;
             AddRow("Gender:", cmbGender);
 
-            // Phone
             txtPhone = new TextBox() { Anchor = AnchorStyles.Left | AnchorStyles.Right };
             AddRow("Phone:", txtPhone);
 
-            // Address
             txtAddress = new TextBox() { Anchor = AnchorStyles.Left | AnchorStyles.Right };
             AddRow("Address:", txtAddress);
 
-            // Role
             cmbRole = new ComboBox() { Anchor = AnchorStyles.Left | AnchorStyles.Right, DropDownStyle = ComboBoxStyle.DropDownList };
             cmbRole.Items.AddRange(new string[] { "client", "admin" });
             cmbRole.SelectedIndex = 0;
             AddRow("Role:", cmbRole);
 
-            // Manage Subscription
             btnManageSubscription = new Button() { Text = "Manage Subscription", Width = 200 };
             btnManageSubscription.Click += (s, e) =>
             {
@@ -114,14 +99,12 @@ namespace AdminApp.Forms
                     MessageBox.Show("Failed to detect user ID.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
-                // Example usage of SubscriptionService
                 var subscriptionService = new SubscriptionService();
                 var manageSubForm = new ManageSubscriptionForm(_user.Id, subscriptionService);
                 manageSubForm.ShowDialog();
             };
             AddRow("Subscription:", btnManageSubscription);
 
-            // Save/Cancel
             btnSave = new Button() { Text = "Save", Anchor = AnchorStyles.None, Width = 100 };
             btnSave.Click += async (s, e) => await SaveUser();
 

@@ -53,11 +53,9 @@ namespace AdminApp.Forms
                 tableLayout.Controls.Add(control);
             }
 
-            // Name
             txtName = new TextBox() { Anchor = AnchorStyles.Left | AnchorStyles.Right };
             AddRow("Trainer Name:", txtName);
 
-            // Working Days
             clbWorkingDays = new CheckedListBox()
             {
                 Anchor = AnchorStyles.Left | AnchorStyles.Right,
@@ -66,7 +64,6 @@ namespace AdminApp.Forms
             clbWorkingDays.Items.AddRange(Enum.GetNames(typeof(DayOfWeek)));
             AddRow("Working Days:", clbWorkingDays);
 
-            // Save/Cancel
             btnSave = new Button() { Text = "Save", Anchor = AnchorStyles.None, Width = 100 };
             btnSave.Click += async (s, e) => await SaveTrainer();
 
@@ -119,7 +116,6 @@ namespace AdminApp.Forms
                 return;
             }
 
-            // Update the trainer data
             _trainer.Name = txtName.Text.Trim();
             _trainer.WorkingDays = new List<DayOfWeek>();
 

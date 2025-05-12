@@ -18,7 +18,6 @@ namespace AdminApp.Forms
         {
             _subscriptionService = subscriptionService;
             InitializeComponents();
-            // Загрузка подписок выполняется асинхронно
             LoadSubscriptionsAsync();
         }
     
@@ -33,14 +32,12 @@ namespace AdminApp.Forms
             dgvSubscriptions = new DataGridView()
             {
                 Dock = DockStyle.Fill,
-                // Для отладки включаем автогенерацию столбцов
                 AutoGenerateColumns = true,
                 ReadOnly = true,
                 AllowUserToAddRows = false,
                 SelectionMode = DataGridViewSelectionMode.FullRowSelect
             };
     
-            // Контекстное меню для отмены подписки
             var contextMenu = new ContextMenuStrip();
             var cancelItem = new ToolStripMenuItem("Отменить подписку");
             cancelItem.Click += CancelSubscription;

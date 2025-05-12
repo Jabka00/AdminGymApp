@@ -37,7 +37,7 @@ namespace AdminApp.Forms
             dgvTrainings = new DataGridView()
             {
                 Dock = DockStyle.Fill,
-                AutoGenerateColumns = false, // Отключаем автоматическую генерацию столбцов
+                AutoGenerateColumns = false, 
                 ReadOnly = true,
                 AllowUserToAddRows = false,
                 SelectionMode = DataGridViewSelectionMode.FullRowSelect
@@ -48,13 +48,12 @@ namespace AdminApp.Forms
                 Name = "GroupPrice",
                 DataPropertyName = "GroupPrice",
                 Width = 100,
-                DefaultCellStyle = new DataGridViewCellStyle { Format = "C2" } // формат как денежный
+                DefaultCellStyle = new DataGridViewCellStyle { Format = "C2" }
             });
-            // Добавление столбцов вручную
             dgvTrainings.Columns.Add(new DataGridViewTextBoxColumn()
             {
                 HeaderText = "Title",
-                Name = "Title", // Имя столбца для обращения
+                Name = "Title", 
                 DataPropertyName = "Title",
                 Width = 150
             });
@@ -141,7 +140,6 @@ namespace AdminApp.Forms
                 Visible = false
             };
 
-            // Контекстное меню для редактирования и удаления тренировки
             var contextMenu = new ContextMenuStrip();
             var editItem = new ToolStripMenuItem("Редактировать");
             editItem.Click += EditTraining;
@@ -162,7 +160,6 @@ namespace AdminApp.Forms
             this.Controls.Add(lblLoading);
         }
 
-        // Метод для загрузки тренировок (публичный для обновления после добавления)
         public async Task LoadTrainingsAsync()
         {
             if (dgvTrainings == null || btnRefresh == null || lblLoading == null)
@@ -179,7 +176,6 @@ namespace AdminApp.Forms
                 var trainers = await _trainerService.GetAllTrainersAsync();
                 var users = await _userService.GetAllUsersAsync();
 
-                // Создание списка для отображения
                 var displayList = trainings.Select(t => new
                 {
                     t.Title,
@@ -339,7 +335,6 @@ namespace AdminApp.Forms
             }
         }
 
-        // Позволяет выделять строку по клику правой кнопкой мыши
         private void DgvTrainings_MouseDown(object? sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Right)

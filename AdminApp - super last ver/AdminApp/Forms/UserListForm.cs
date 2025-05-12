@@ -21,7 +21,6 @@ namespace AdminApp.Forms
         private Button btnSearch;
         private BindingSource bindingSource;
 
-        // Панель и элементы управления для постраничной навигации
         private Panel paginationPanel;
         private Button btnPrev;
         private Button btnNext;
@@ -29,12 +28,10 @@ namespace AdminApp.Forms
         private TextBox txtPage;
         private Button btnGo;
 
-        // Переменные для пагинации
         private int _currentPage = 1;
         private int _pageSize = 10;
         private int _totalPages = 1;
 
-        // Хранит полный список пользователей для сортировки и фильтрации
         private List<User> _allUsers = new List<User>();
         private string? _lastSortedColumn;
         private bool _sortAscending = true;
@@ -50,19 +47,15 @@ namespace AdminApp.Forms
 
         private void InitializeComponents()
         {
-            // Основной вид формы
             Text = "User List";
             Size = new Size(900, 600);
-            // Разрешаем изменять размер окна и максимизацию
             FormBorderStyle = FormBorderStyle.Sizable;
             MaximizeBox = true;
             StartPosition = FormStartPosition.CenterParent;
             BackColor = Color.White;
 
-            // Инициализация BindingSource
             bindingSource = new BindingSource();
 
-            // Верхняя панель для элементов управления (поиск, обновление)
             topPanel = new Panel
             {
                 Dock = DockStyle.Top,
@@ -72,7 +65,6 @@ namespace AdminApp.Forms
                 BorderStyle = BorderStyle.FixedSingle
             };
 
-            // Кнопка "Обновить"
             btnRefresh = new Button
             {
                 Text = "Обновить",
@@ -87,7 +79,6 @@ namespace AdminApp.Forms
             btnRefresh.FlatAppearance.BorderSize = 0;
             btnRefresh.Click += async (s, e) => { _currentPage = 1; await LoadUsersAsync(); };
 
-            // Метка для поиска по username
             lblSearch = new Label
             {
                 Text = "Username:",
@@ -98,7 +89,6 @@ namespace AdminApp.Forms
                 ForeColor = Color.Black
             };
 
-            // Текстовое поле поиска
             txtSearch = new TextBox
             {
                 Width = 200,
@@ -107,7 +97,6 @@ namespace AdminApp.Forms
                 Top = 15
             };
 
-            // Кнопка "Поиск"
             btnSearch = new Button
             {
                 Text = "Поиск",
@@ -122,13 +111,11 @@ namespace AdminApp.Forms
             btnSearch.FlatAppearance.BorderSize = 0;
             btnSearch.Click += (s, e) => { _currentPage = 1; ApplySearchFilter(); };
 
-            // Добавляем элементы на верхнюю панель
             topPanel.Controls.Add(btnRefresh);
             topPanel.Controls.Add(lblSearch);
             topPanel.Controls.Add(txtSearch);
             topPanel.Controls.Add(btnSearch);
 
-            // Инициализация DataGridView
             dgvUsers = new DataGridView
             {
                 Dock = DockStyle.Fill,
@@ -165,7 +152,6 @@ namespace AdminApp.Forms
             dgvUsers.EnableHeadersVisualStyles = false;
             dgvUsers.ColumnHeaderMouseClick += DgvUsers_ColumnHeaderMouseClick;
 
-            // Контекстное меню для редактирования пользователя
             var contextMenu = new ContextMenuStrip { BackColor = Color.White };
             var editItem = new ToolStripMenuItem("Edit")
             {
@@ -177,7 +163,6 @@ namespace AdminApp.Forms
             dgvUsers.ContextMenuStrip = contextMenu;
             dgvUsers.MouseDown += DgvUsers_MouseDown;
 
-            // Метка загрузки
             lblLoading = new Label
             {
                 Text = "Loading...",
@@ -189,7 +174,6 @@ namespace AdminApp.Forms
                 ForeColor = Color.Black
             };
 
-            // Панель для постраничной навигации
             paginationPanel = new Panel
             {
                 Dock = DockStyle.Bottom,
@@ -276,14 +260,12 @@ namespace AdminApp.Forms
             paginationPanel.Controls.Add(txtPage);
             paginationPanel.Controls.Add(btnGo);
 
-            // Добавляем элементы на форму (порядок: DataGridView, панель навигации, верхняя панель, индикатор загрузки)
             Controls.Add(dgvUsers);
             Controls.Add(paginationPanel);
             Controls.Add(topPanel);
             Controls.Add(lblLoading);
         }
 
-        // Асинхронно загружает пользователей, обновляет _allUsers и вызывает фильтрацию с пагинацией
         public async Task LoadUsersAsync()
         {
             try
@@ -309,7 +291,6 @@ namespace AdminApp.Forms
             }
         }
 
-        // Применяет фильтр поиска, вычисляет общее число страниц и отображает данные текущей страницы
         private void ApplySearchFilter()
         {
             string filter = txtSearch?.Text.Trim() ?? string.Empty;
@@ -326,7 +307,6 @@ namespace AdminApp.Forms
             if (_currentPage > _totalPages)
                 _currentPage = _totalPages;
 
-            // Выбираем данные для текущей страницы
             var pageData = filtered.Skip((_currentPage - 1) * _pageSize).Take(_pageSize).ToList();
             bindingSource.DataSource = pageData;
 
@@ -335,7 +315,6 @@ namespace AdminApp.Forms
             btnNext.Enabled = _currentPage < _totalPages;
         }
 
-        // Обработка редактирования пользователя через контекстное меню
         private void EditUser(object? sender, EventArgs e)
         {
             if (dgvUsers?.SelectedRows.Count > 0)
@@ -350,7 +329,6 @@ namespace AdminApp.Forms
             }
         }
 
-        // Позволяет выделять строку по клику правой кнопкой мыши
         private void DgvUsers_MouseDown(object? sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Right)
@@ -364,7 +342,6 @@ namespace AdminApp.Forms
             }
         }
 
-        // Обработчик сортировки при клике по заголовку столбца (с использованием Reflection)
         private void DgvUsers_ColumnHeaderMouseClick(object? sender, DataGridViewCellMouseEventArgs e)
         {
             if (dgvUsers.Columns.Count <= e.ColumnIndex)

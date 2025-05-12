@@ -90,21 +90,17 @@ namespace AdminApp.Services
                 if (training == null || training.EnrolledUsers == null)
                     return false;
 
-                // Проверка вместимости
                 if (training.EnrolledUsers.Count >= training.Capacity)
                     return false;
 
-                // Получение тренера
                 var trainer = await _trainerService.GetTrainerByIdAsync(training.TrainerId);
                 if (trainer == null)
                     return false;
 
-                // Проверка рабочего дня тренера
                 var trainingDay = training.Schedule.DayOfWeek;
                 if (!trainer.WorkingDays.Contains(trainingDay))
                     return false;
 
-                // Запись пользователя
                 var update = Builders<Training>.Update
                     .AddToSet(t => t.EnrolledUsers, userId)
                     .Set(t => t.UpdatedAt, DateTime.UtcNow);
