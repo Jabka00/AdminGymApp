@@ -30,7 +30,7 @@ namespace AdminApp.Forms
 
             var lbl = new Label() { Text = "User:", AutoSize = true, Left = 10, Top = 20 };
             cmbUsers = new ComboBox() { Left = 120, Top = 20, Width = 250, DropDownStyle = ComboBoxStyle.DropDownList };
-            btnManage = new Button() { Text = "Управлять подпиской", Left = 120, Top = 60, Width = 150 };
+            btnManage = new Button() { Text = "manage subscription", Left = 120, Top = 60, Width = 150 };
             btnManage.Click += BtnManage_Click;
 
             this.Controls.Add(lbl);
@@ -50,7 +50,7 @@ namespace AdminApp.Forms
         {
             if (cmbUsers.SelectedValue == null)
             {
-                MessageBox.Show("Chose User.", "Внимание", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Chose User.", "warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
             string userId = cmbUsers.SelectedValue.ToString();

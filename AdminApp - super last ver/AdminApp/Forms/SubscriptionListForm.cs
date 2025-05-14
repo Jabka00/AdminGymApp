@@ -18,12 +18,12 @@ namespace AdminApp.Forms
         {
             _subscriptionService = subscriptionService;
             InitializeComponents();
-            LoadSubscriptionsAsync();
+            _ = LoadSubscriptionsAsync();
         }
     
         private void InitializeComponents()
         {
-            this.Text = "Subscription list";
+            this.Text = "Subscription List";
             this.Size = new System.Drawing.Size(900, 600);
             this.FormBorderStyle = FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
@@ -39,7 +39,7 @@ namespace AdminApp.Forms
             };
     
             var contextMenu = new ContextMenuStrip();
-            var cancelItem = new ToolStripMenuItem("Отменить подписку");
+            var cancelItem = new ToolStripMenuItem("Cancel Subscription");
             cancelItem.Click += CancelSubscription;
             contextMenu.Items.Add(cancelItem);
             dgvSubscriptions.ContextMenuStrip = contextMenu;
@@ -47,7 +47,7 @@ namespace AdminApp.Forms
     
             btnRefresh = new Button()
             {
-                Text = "Update",
+                Text = "Refresh",
                 Dock = DockStyle.Top,
                 Height = 40
             };
@@ -78,12 +78,12 @@ namespace AdminApp.Forms
                 Cursor.Current = Cursors.WaitCursor;
     
                 List<Subscription> subscriptions = await _subscriptionService.GetAllSubscriptionsAsync();
-                Console.WriteLine($"Найдено подписок: {subscriptions.Count}");
+                Console.WriteLine($"Subscriptions found: {subscriptions.Count}");
                 dgvSubscriptions.DataSource = subscriptions;
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Ошибка при загрузке подписок: {ex.Message}", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"Error loading subscriptions: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             finally
             {
@@ -101,19 +101,23 @@ namespace AdminApp.Forms
                 var subscription = selectedRow.DataBoundItem as Subscription;
                 if (subscription != null)
                 {
-                    var confirmResult = MessageBox.Show("Вы уверены, что хотите отменить эту подписку?",
-                        "Подтверждение", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                    var confirmResult = MessageBox.Show(
+                        "Are you sure you want to cancel this subscription?",
+                        "Confirmation",
+                        MessageBoxButtons.YesNo,
+                        MessageBoxIcon.Question);
+
                     if (confirmResult == DialogResult.Yes)
                     {
                         bool success = await _subscriptionService.DeleteSubscriptionAsync(subscription.Id!);
                         if (success)
                         {
-                            MessageBox.Show("Подписка отменена!", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            MessageBox.Show("Subscription canceled!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                             await LoadSubscriptionsAsync();
                         }
                         else
                         {
-                            MessageBox.Show("Не удалось отменить подписку.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            MessageBox.Show("Failed to cancel subscription.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         }
                     }
                 }

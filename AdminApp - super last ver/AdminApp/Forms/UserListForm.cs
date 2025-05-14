@@ -67,7 +67,7 @@ namespace AdminApp.Forms
 
             btnRefresh = new Button
             {
-                Text = "Обновить",
+                Text = "Update",
                 Width = 100,
                 Height = 30,
                 FlatStyle = FlatStyle.Flat,
@@ -99,7 +99,7 @@ namespace AdminApp.Forms
 
             btnSearch = new Button
             {
-                Text = "Поиск",
+                Text = "Search",
                 Width = 100,
                 Height = 30,
                 FlatStyle = FlatStyle.Flat,
@@ -281,7 +281,7 @@ namespace AdminApp.Forms
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Ошибка при загрузке пользователей: {ex.Message}", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"Error while loading users: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             finally
             {

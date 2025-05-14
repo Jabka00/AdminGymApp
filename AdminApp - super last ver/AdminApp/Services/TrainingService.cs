@@ -33,7 +33,7 @@ namespace AdminApp.Services
         public async Task<Training?> GetTrainingByTitleAsync(string title)
         {
             if (string.IsNullOrWhiteSpace(title))
-                throw new ArgumentException("Название тренировки не должно быть пустым.", nameof(title));
+                throw new ArgumentException("Name of trainings shuden't be empty.", nameof(title));
 
             var filter = Builders<Training>.Filter.Eq(t => t.Title, title);
             return await _trainings.Find(filter).FirstOrDefaultAsync();

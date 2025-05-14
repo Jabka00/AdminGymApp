@@ -48,7 +48,7 @@ namespace AdminApp.Forms
                 Name = "GroupPrice",
                 DataPropertyName = "GroupPrice",
                 Width = 100,
-                DefaultCellStyle = new DataGridViewCellStyle { Format = "C2" }
+                DefaultCellStyle = new DataGridViewCellStyle { Format = "" }
             });
             dgvTrainings.Columns.Add(new DataGridViewTextBoxColumn()
             {
@@ -126,7 +126,7 @@ namespace AdminApp.Forms
 
             btnAddTraining = new Button()
             {
-                Text = "Добавить тренировку",
+                Text = "Add training",
                 Dock = DockStyle.Top,
                 Height = 40
             };
@@ -134,20 +134,20 @@ namespace AdminApp.Forms
 
             lblLoading = new Label()
             {
-                Text = "Загрузка...",
+                Text = "Loading...",
                 Dock = DockStyle.Bottom,
                 TextAlign = System.Drawing.ContentAlignment.MiddleCenter,
                 Visible = false
             };
 
             var contextMenu = new ContextMenuStrip();
-            var editItem = new ToolStripMenuItem("Редактировать");
+            var editItem = new ToolStripMenuItem("Edit");
             editItem.Click += EditTraining;
-            var deleteItem = new ToolStripMenuItem("Удалить");
+            var deleteItem = new ToolStripMenuItem("Delate");
             deleteItem.Click += DeleteTraining;
-            var enrollItem = new ToolStripMenuItem("Записать пользователя");
+            var enrollItem = new ToolStripMenuItem("Enrole user");
             enrollItem.Click += EnrollUser;
-            var viewEnrolledItem = new ToolStripMenuItem("Просмотреть пользователей");
+            var viewEnrolledItem = new ToolStripMenuItem("View users");
             viewEnrolledItem.Click += ViewEnrolledUsers;
 
             contextMenu.Items.AddRange(new ToolStripItem[] { editItem, deleteItem, enrollItem, viewEnrolledItem });
@@ -183,7 +183,7 @@ namespace AdminApp.Forms
                     t.Type,
                     Schedule = t.Schedule,
                     t.Duration,
-                    TrainerName = trainers.FirstOrDefault(tr => tr.Id == t.TrainerId)?.Name ?? "Неизвестен",
+                    TrainerName = trainers.FirstOrDefault(tr => tr.Id == t.TrainerId)?.Name ?? "Not found",
                     t.Capacity,
                     EnrolledCount = t.EnrolledUsers?.Count ?? 0,
                     t.GroupPrice
@@ -194,7 +194,7 @@ namespace AdminApp.Forms
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Ошибка при загрузке тренировок: {ex.Message}", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"Error while loading: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             finally
             {
@@ -220,7 +220,7 @@ namespace AdminApp.Forms
                 var trainingTitle = selectedRow.Cells["Title"].Value?.ToString();
                 if (string.IsNullOrEmpty(trainingTitle))
                 {
-                    MessageBox.Show("Не удалось определить название тренировки.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Error with name .", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
 
@@ -233,7 +233,7 @@ namespace AdminApp.Forms
                 }
                 else
                 {
-                    MessageBox.Show("Тренировка не найдена.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Error.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
         }
@@ -247,15 +247,15 @@ namespace AdminApp.Forms
 
                 if (string.IsNullOrEmpty(trainingTitle))
                 {
-                    MessageBox.Show("Не удалось определить название тренировки.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Error.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
 
                 var training = await _trainingService.GetTrainingByTitleAsync(trainingTitle);
                 if (training != null)
                 {
-                    var confirmResult = MessageBox.Show($"Вы уверены, что хотите удалить тренировку '{training.Title}'?",
-                                                         "Подтверждение",
+                    var confirmResult = MessageBox.Show($"Are you sure you want to delate training '{training.Title}'?",
+                                                         "Yes",
                                                          MessageBoxButtons.YesNo,
                                                          MessageBoxIcon.Question);
                     if (confirmResult == DialogResult.Yes)
@@ -263,12 +263,12 @@ namespace AdminApp.Forms
                         var success = await _trainingService.DeleteTrainingAsync(training.Id!);
                         if (success)
                         {
-                            MessageBox.Show("Тренировка успешно удалена!", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            MessageBox.Show("Success!", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
                             await LoadTrainingsAsync();
                         }
                         else
                         {
-                            MessageBox.Show("Не удалось удалить тренировку.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            MessageBox.Show("Error.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         }
                     }
                 }
@@ -284,14 +284,14 @@ namespace AdminApp.Forms
 
                 if (string.IsNullOrEmpty(trainingTitle))
                 {
-                    MessageBox.Show("Не удалось определить название тренировки.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Error", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
 
                 var training = await _trainingService.GetTrainingByTitleAsync(trainingTitle);
                 if (training == null)
                 {
-                    MessageBox.Show("Тренировка не найдена.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Not found.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
 
@@ -301,7 +301,7 @@ namespace AdminApp.Forms
             }
             else
             {
-                MessageBox.Show("Пожалуйста, выберите тренировку.", "Внимание", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Chose training.", "", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
 
@@ -314,7 +314,7 @@ namespace AdminApp.Forms
 
                 if (string.IsNullOrEmpty(trainingTitle))
                 {
-                    MessageBox.Show("Не удалось определить название тренировки.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Error with name.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
 
@@ -326,12 +326,12 @@ namespace AdminApp.Forms
                 }
                 else
                 {
-                    MessageBox.Show("Тренировка не найдена.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Not found.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
             else
             {
-                MessageBox.Show("Пожалуйста, выберите тренировку.", "Внимание", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Chose training.", "", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
 

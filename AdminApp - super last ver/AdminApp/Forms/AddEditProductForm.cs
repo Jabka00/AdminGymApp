@@ -22,84 +22,84 @@ namespace AdminApp.Forms
         private readonly Dictionary<string, List<string>> categories = new Dictionary<string, List<string>>
         {
             {
-                "Питание и напитки", new List<string>
+                "Nutrition and Beverages", new List<string>
                 {
-                    "Протеиновые батончики",
-                    "Протеиновый порошок (сывороточный, казеиновый, растительный)",
-                    "Гейнеры",
-                    "BCAA (аминокислоты)",
-                    "Креатин",
-                    "Предтренировочные комплексы",
-                    "Изотонические напитки",
-                    "Витамины и минералы",
-                    "Омега-3, рыбий жир",
-                    "Энергетические напитки",
-                    "Глютамин",
-                    "Коллаген",
-                    "Батончики без сахара",
-                    "Натуральные соки и коктейли",
-                    "Электролиты"
+                    "Protein Bars",
+                    "Protein Powder (Whey, Casein, Plant-Based)",
+                    "Gainers",
+                    "BCAAs (Amino Acids)",
+                    "Creatine",
+                    "Pre-Workout Complexes",
+                    "Isotonic Drinks",
+                    "Vitamins and Minerals",
+                    "Omega-3, Fish Oil",
+                    "Energy Drinks",
+                    "Glutamine",
+                    "Collagen",
+                    "Sugar-Free Bars",
+                    "Natural Juices and Smoothies",
+                    "Electrolytes"
                 }
             },
             {
-                "Экипировка и одежда", new List<string>
+                "Equipment and Apparel", new List<string>
                 {
-                    "Футболки, майки",
-                    "Лосины, леггинсы",
-                    "Шорты",
-                    "Спортивные брюки",
-                    "Компрессионная одежда",
-                    "Спортивные куртки",
-                    "Перчатки для зала",
-                    "Лямки и ремни для тяги",
-                    "Пояса для пауэрлифтинга",
-                    "Бинты для коленей, локтей",
-                    "Носки для тренировок",
-                    "Спортивные сумки",
-                    "Бутылки и шейкеры",
-                    "Повязки на голову и запястья"
+                    "T-Shirts, Tank Tops",
+                    "Leggings",
+                    "Shorts",
+                    "Sports Pants",
+                    "Compression Wear",
+                    "Sports Jackets",
+                    "Gym Gloves",
+                    "Lifting Straps and Belts",
+                    "Powerlifting Belts",
+                    "Knee and Elbow Wraps",
+                    "Workout Socks",
+                    "Gym Bags",
+                    "Bottles and Shakers",
+                    "Headbands and Wristbands"
                 }
             },
             {
-                "Аксессуары и инвентарь", new List<string>
+                "Accessories and Equipment", new List<string>
                 {
-                    "Фитнес-резинки",
-                    "Скакалки",
-                    "Лямки для подтягиваний",
-                    "Утяжелители для ног и рук",
-                    "Эспандеры",
-                    "Ролики для пресса",
-                    "Гимнастические кольца",
-                    "Турники для дверного проема",
-                    "Гири, гантели",
-                    "Йога-коврики",
-                    "Балансировочные платформы",
-                    "Медицинские мячи",
-                    "Тренировочные петли (TRX)",
-                    "Пена-роллы (Foam Roller)",
-                    "Блоки для йоги"
+                    "Resistance Bands",
+                    "Skipping Ropes",
+                    "Pull-Up Straps",
+                    "Ankle and Wrist Weights",
+                    "Hand Grippers",
+                    "Ab Rollers",
+                    "Gymnastic Rings",
+                    "Doorway Pull-Up Bars",
+                    "Kettlebells, Dumbbells",
+                    "Yoga Mats",
+                    "Balance Boards",
+                    "Medicine Balls",
+                    "TRX Suspension Trainers",
+                    "Foam Rollers",
+                    "Yoga Blocks"
                 }
             },
             {
-                "Гигиена и уход за телом", new List<string>
+                "Hygiene and Body Care", new List<string>
                 {
-                    "Полотенца",
-                    "Дезодоранты",
-                    "Гели для душа",
-                    "Шампуни",
-                    "Кремы для восстановления мышц",
-                    "Бальзамы для суставов",
-                    "Кремы от мозолей",
-                    "Пластырь спортивный",
-                    "Магнезия (жидкая и порошковая)",
-                    "Антисептики",
-                    "Бальзамы для губ"
+                    "Towels",
+                    "Deodorants",
+                    "Shower Gels",
+                    "Shampoos",
+                    "Muscle Recovery Creams",
+                    "Joint Balms",
+                    "Blister Creams",
+                    "Sporting Plasters",
+                    "Chalk (Liquid and Powder)",
+                    "Antiseptics",
+                    "Lip Balms"
                 }
             },
             {
-                "Фармакология", new List<string>
+                "Pharmacology", new List<string>
                 {
-                    "Тренбалон"
+                    "Trenbolone"
                 }
             }
         };
@@ -132,15 +132,6 @@ namespace AdminApp.Forms
             Label lblQuantity = new Label() { Text = "Quantity:", Left = 20, Top = 140 };
             txtQuantity = new TextBox() { Left = 120, Top = 140, Width = 200 };
 
-            Label lblSubCategory = new Label() { Text = "Subcategory:", Left = 20, Top = 220 };
-            cmbSubCategory = new ComboBox()
-            {
-                Left = 120,
-                Top = 220,
-                Width = 200,
-                DropDownStyle = ComboBoxStyle.DropDownList
-            };
-
             Label lblMainCategory = new Label() { Text = "Main Category:", Left = 20, Top = 180 };
             cmbMainCategory = new ComboBox()
             {
@@ -150,13 +141,19 @@ namespace AdminApp.Forms
                 DropDownStyle = ComboBoxStyle.DropDownList
             };
 
+            Label lblSubCategory = new Label() { Text = "Subcategory:", Left = 20, Top = 220 };
+            cmbSubCategory = new ComboBox()
+            {
+                Left = 120,
+                Top = 220,
+                Width = 200,
+                DropDownStyle = ComboBoxStyle.DropDownList
+            };
+
             cmbMainCategory.Items.AddRange(categories.Keys.ToArray());
             cmbMainCategory.SelectedIndexChanged += CmbMainCategory_SelectedIndexChanged;
-
             if (cmbMainCategory.Items.Count > 0)
-            {
                 cmbMainCategory.SelectedIndex = 0;
-            }
 
             btnSave = new Button() { Text = "Save", Left = 120, Top = 270, Width = 100 };
             btnSave.Click += BtnSave_Click;
@@ -164,7 +161,7 @@ namespace AdminApp.Forms
             this.Controls.Add(lblName);
             this.Controls.Add(txtName);
             this.Controls.Add(lblDescription);
-           	this.Controls.Add(txtDescription);
+            this.Controls.Add(txtDescription);
             this.Controls.Add(lblPrice);
             this.Controls.Add(txtPrice);
             this.Controls.Add(lblQuantity);
@@ -175,68 +172,60 @@ namespace AdminApp.Forms
             this.Controls.Add(cmbSubCategory);
             this.Controls.Add(btnSave);
         }
+
         private void CmbMainCategory_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (cmbMainCategory.SelectedItem == null)
                 return;
 
-            string selectedMainCategory = cmbMainCategory.SelectedItem.ToString();
+            string selectedMainCategory = cmbMainCategory.SelectedItem.ToString()!;
             cmbSubCategory.Items.Clear();
-            if (categories.ContainsKey(selectedMainCategory))
+            if (categories.TryGetValue(selectedMainCategory, out var subcats))
             {
-                cmbSubCategory.Items.AddRange(categories[selectedMainCategory].ToArray());
+                cmbSubCategory.Items.AddRange(subcats.ToArray());
                 if (cmbSubCategory.Items.Count > 0)
-                {
                     cmbSubCategory.SelectedIndex = 0;
-                }
             }
         }
 
         private void LoadProductData()
         {
-            if (_product != null)
+            if (_product == null) return;
+
+            txtName.Text = _product.Name;
+            txtDescription.Text = _product.Description;
+            txtPrice.Text = _product.Price.ToString();
+            txtQuantity.Text = _product.Quantity.ToString();
+
+            if (!string.IsNullOrWhiteSpace(_product.Category))
             {
-                txtName.Text = _product.Name;
-                txtDescription.Text = _product.Description;
-                txtPrice.Text = _product.Price.ToString();
-                txtQuantity.Text = _product.Quantity.ToString();
-
-                if (!string.IsNullOrWhiteSpace(_product.Category))
+                var foundMain = categories
+                    .FirstOrDefault(kvp => kvp.Value.Contains(_product.Category)).Key;
+                if (foundMain != null)
                 {
-                    string savedSubCategory = _product.Category;
-                    string foundMainCategory = categories
-                        .Where(kvp => kvp.Value.Contains(savedSubCategory))
-                        .Select(kvp => kvp.Key)
-                        .FirstOrDefault();
-
-                    if (!string.IsNullOrEmpty(foundMainCategory))
-                    {
-                        cmbMainCategory.SelectedItem = foundMainCategory;
-                           if (cmbSubCategory.Items.Contains(savedSubCategory))
-                        {
-                            cmbSubCategory.SelectedItem = savedSubCategory;
-                        }
-                    }
+                    cmbMainCategory.SelectedItem = foundMain;
+                    if (cmbSubCategory.Items.Contains(_product.Category))
+                        cmbSubCategory.SelectedItem = _product.Category;
                 }
             }
         }
 
         private async void BtnSave_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(txtName.Text) ||
-                !double.TryParse(txtPrice.Text, out double price) ||
-                !int.TryParse(txtQuantity.Text, out int quantity) ||
-                cmbSubCategory.SelectedItem == null)
+            if (string.IsNullOrWhiteSpace(txtName.Text)
+                || !double.TryParse(txtPrice.Text, out var price)
+                || !int.TryParse(txtQuantity.Text, out var quantity)
+                || cmbSubCategory.SelectedItem == null)
             {
                 MessageBox.Show("Please fill in valid product details.");
                 return;
             }
 
-            string category = cmbSubCategory.SelectedItem.ToString();
+            string category = cmbSubCategory.SelectedItem.ToString()!;
 
             if (_product == null)
             {
-                Product newProduct = new Product
+                var newProduct = new Product
                 {
                     Name = txtName.Text,
                     Description = txtDescription.Text,
@@ -247,12 +236,11 @@ namespace AdminApp.Forms
                     UpdatedAt = DateTime.Now
                 };
 
-                bool success = await _productService.InsertProductAsync(newProduct);
-                if (success)
+                if (await _productService.InsertProductAsync(newProduct))
                 {
                     MessageBox.Show("Product added successfully.");
-                    this.DialogResult = DialogResult.OK;
-                    this.Close();
+                    DialogResult = DialogResult.OK;
+                    Close();
                 }
                 else
                 {
@@ -268,12 +256,11 @@ namespace AdminApp.Forms
                 _product.Category = category;
                 _product.UpdatedAt = DateTime.Now;
 
-                bool success = await _productService.UpdateProductAsync(_product);
-                if (success)
+                if (await _productService.UpdateProductAsync(_product))
                 {
                     MessageBox.Show("Product updated successfully.");
-                    this.DialogResult = DialogResult.OK;
-                    this.Close();
+                    DialogResult = DialogResult.OK;
+                    Close();
                 }
                 else
                 {

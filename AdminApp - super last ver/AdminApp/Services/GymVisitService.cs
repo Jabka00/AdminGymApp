@@ -31,23 +31,29 @@ namespace AdminApp.Services
             var activeVisit = await GetActiveVisitByUserIdAsync(userId);
             if (activeVisit != null)
             {
-                return (false, "Пользователь уже находится в зале.");
+                return (false, "User is already checked in.");
             }
 
             var user = await _users.Find(u => u.Id == userId).FirstOrDefaultAsync();
             if (user == null)
             {
-                return (false, "Пользователь не найден.");
+                return (false, "User not found.");
             }
 
             string gender = user.Gender.ToLower();
             if (gender != "male" && gender != "female")
                 gender = "male";
 
-            var activeVisitsForGender = await _gymVisits.Find(gv => gv.Gender.ToLower() == gender && gv.CheckOutTime == null).ToListAsync();
-            var occupiedLockers = activeVisitsForGender.Select(gv => gv.LockerNumber).ToHashSet();
+            var activeVisitsForGender = await _gymVisits
+                .Find(gv => gv.Gender.ToLower() == gender && gv.CheckOutTime == null)
+                .ToListAsync();
+
+            var occupiedLockers = activeVisitsForGender
+                .Select(gv => gv.LockerNumber)
+                .ToHashSet();
 
             int? lockerNumber = null;
+            // Try odd-numbered lockers first
             for (int num = 1; num <= 35; num += 2)
             {
                 if (!occupiedLockers.Contains(num))
@@ -56,6 +62,7 @@ namespace AdminApp.Services
                     break;
                 }
             }
+            // Then try even-numbered lockers
             if (lockerNumber == null)
             {
                 for (int num = 2; num <= 35; num += 2)
@@ -69,7 +76,7 @@ namespace AdminApp.Services
             }
             if (lockerNumber == null)
             {
-                return (false, "Нет свободных шкафчиков.");
+                return (false, "No free lockers available.");
             }
 
             var gymVisit = new GymVisit
@@ -86,13 +93,15 @@ namespace AdminApp.Services
             try
             {
                 await _gymVisits.InsertOneAsync(gymVisit);
+
                 var update = Builders<User>.Update.Set(u => u.IsInGym, true);
                 await _users.UpdateOneAsync(u => u.Id == userId, update);
-                return (true, $"Пользователь зачекинен. Номер шкафчика: {lockerNumber.Value}");
+
+                return (true, $"User checked in. Locker number: {lockerNumber.Value}");
             }
             catch (Exception ex)
             {
-                return (false, $"Ошибка при входе: {ex.Message}");
+                return (false, $"Error during check-in: {ex.Message}");
             }
         }
 
@@ -101,7 +110,7 @@ namespace AdminApp.Services
             var activeVisit = await GetActiveVisitByUserIdAsync(userId);
             if (activeVisit == null)
             {
-                return (false, "Пользователь не числится в зале.");
+                return (false, "User is not currently checked in.");
             }
 
             var updateVisit = Builders<GymVisit>.Update
@@ -112,9 +121,10 @@ namespace AdminApp.Services
             var user = await _users.Find(u => u.Id == userId).FirstOrDefaultAsync();
             if (user == null)
             {
-                return (false, "Пользователь не найден.");
+                return (false, "User not found.");
             }
-            var newVisitCount = user.VisitCount + 1;
+
+            int newVisitCount = user.VisitCount + 1;
             var updateUser = Builders<User>.Update
                 .Set(u => u.IsInGym, false)
                 .Set(u => u.VisitCount, newVisitCount)
@@ -123,13 +133,14 @@ namespace AdminApp.Services
 
             if (resultVisit.IsAcknowledged && resultUser.IsAcknowledged)
             {
-                return (true, "Пользователь выписан из зала.");
+                return (true, "User checked out successfully.");
             }
             else
             {
-                return (false, "Ошибка при выписке пользователя.");
+                return (false, "Error during check-out.");
             }
         }
+
         public async Task<List<GymVisit>> GetAllGymVisitsAsync()
         {
             return await _gymVisits.Find(_ => true).ToListAsync();
@@ -138,9 +149,10 @@ namespace AdminApp.Services
         public async Task<List<GymVisit>> GetVisitHistoryAsync(string userId)
         {
             var filter = Builders<GymVisit>.Filter.Eq(gv => gv.UserId, userId);
-            return await _gymVisits.Find(filter)
-                                     .SortByDescending(gv => gv.CheckInTime)
-                                     .ToListAsync();
+            return await _gymVisits
+                         .Find(filter)
+                         .SortByDescending(gv => gv.CheckInTime)
+                         .ToListAsync();
         }
     }
 }

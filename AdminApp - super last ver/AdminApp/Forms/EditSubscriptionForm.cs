@@ -103,7 +103,7 @@ namespace AdminApp.Forms
             int duration = (int)nudDurationMonths.Value;
             double pricePerMonth = (double)nudPricePerMonth.Value;
             double totalPrice = duration * pricePerMonth;
-            lblTotalPrice.Text = totalPrice.ToString("C2");
+            lblTotalPrice.Text = totalPrice.ToString("");
 
             DateTime startDate = dtpStartDate.Value;
             DateTime endDate = startDate.AddMonths(duration);

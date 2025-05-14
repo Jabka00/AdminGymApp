@@ -24,7 +24,7 @@ namespace AdminApp.Forms
 
         private void InitializeComponents()
         {
-            this.Text = "Список тренеров";
+            this.Text = "Trainer List";
             this.Size = new System.Drawing.Size(800, 600);
             this.FormBorderStyle = FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
@@ -41,7 +41,7 @@ namespace AdminApp.Forms
 
             btnRefresh = new Button()
             {
-                Text = "Обновить",
+                Text = "Update",
                 Dock = DockStyle.Top,
                 Height = 40
             };
@@ -49,7 +49,7 @@ namespace AdminApp.Forms
 
             btnAddTrainer = new Button()
             {
-                Text = "Добавить тренера",
+                Text = "Add Trainer",
                 Dock = DockStyle.Top,
                 Height = 40
             };
@@ -57,16 +57,16 @@ namespace AdminApp.Forms
 
             lblLoading = new Label()
             {
-                Text = "Загрузка...",
+                Text = "Loading...",
                 Dock = DockStyle.Bottom,
                 TextAlign = System.Drawing.ContentAlignment.MiddleCenter,
                 Visible = false
             };
 
             var contextMenu = new ContextMenuStrip();
-            var editItem = new ToolStripMenuItem("Редактировать");
+            var editItem = new ToolStripMenuItem("Edit");
             editItem.Click += EditTrainer;
-            var deleteItem = new ToolStripMenuItem("Удалить");
+            var deleteItem = new ToolStripMenuItem("Delate");
             deleteItem.Click += DeleteTrainer;
 
             contextMenu.Items.AddRange(new ToolStripItem[] { editItem, deleteItem });
@@ -96,7 +96,7 @@ namespace AdminApp.Forms
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Ошибка при загрузке тренеров: {ex.Message}", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"Error while loading: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             finally
             {
@@ -139,8 +139,8 @@ namespace AdminApp.Forms
 
                 if (trainer != null)
                 {
-                    var confirmResult = MessageBox.Show($"Вы уверены, что хотите удалить тренера '{trainer.Name}'?",
-                                                         "Подтверждение",
+                    var confirmResult = MessageBox.Show($"Are you sure you want to delate trainer '{trainer.Name}'?",
+                                                         "Yes",
                                                          MessageBoxButtons.YesNo,
                                                          MessageBoxIcon.Question);
                     if (confirmResult == DialogResult.Yes)
@@ -148,12 +148,12 @@ namespace AdminApp.Forms
                         var success = await _trainerService.DeleteTrainerAsync(trainer.Id!);
                         if (success)
                         {
-                            MessageBox.Show("Тренер успешно удалён!", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            MessageBox.Show("Trainer delated!", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
                             LoadTrainers();
                         }
                         else
                         {
-                            MessageBox.Show("Не удалось удалить тренера.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            MessageBox.Show("Error.", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         }
                     }
                 }

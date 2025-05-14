@@ -118,8 +118,8 @@ namespace AdminApp.Forms
                 lblExistingStart.Text = _subscription.StartDate.ToShortDateString();
                 lblExistingEnd.Text = _subscription.EndDate.ToShortDateString();
                 lblExistingDuration.Text = _subscription.DurationMonths.ToString();
-                lblExistingPrice.Text = _subscription.PricePerMonth.ToString("C2");
-                lblExistingTotal.Text = _subscription.TotalPrice.ToString("C2");
+                lblExistingPrice.Text = _subscription.PricePerMonth.ToString("");
+                lblExistingTotal.Text = _subscription.TotalPrice.ToString("");
             }
             else
             {
@@ -134,7 +134,7 @@ namespace AdminApp.Forms
             int duration = (int)nudNewDuration.Value;
             double price = (double)nudNewPrice.Value;
             double total = duration * price;
-            lblNewTotal.Text = total.ToString("C2");
+            lblNewTotal.Text = total.ToString("");
             DateTime start = dtpNewStart.Value;
             DateTime end = start.AddMonths(duration);
             lblNewEnd.Text = end.ToShortDateString();
